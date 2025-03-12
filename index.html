@@ -69,7 +69,7 @@
     
     <script>
         const subjects = ["I", "You", "He", "She", "It", "We", "They"];
-        const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come", "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need", "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help", "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live", "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay", "meet", "include", "continue", "set", "learn", "change", "lead", "understand", "watch", "follow"];
+        const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come", "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need", "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help", "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live", "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay", "meet", "include", "continue", "set", "learn", "change", "lead", "understand", "watch", "follow", "analyze", "budget", "collaborate", "delegate", "negotiate", "optimize", "prioritize", "strategize", "facilitate", "implement", "monitor", "coordinate", "evaluate", "generate", "integrate", "review"];
         const tenses = ["Present Simple", "Present Continuous", "Imperative", "Conditional", "Future Simple", "Past Simple"];
         const irregularPast = {
             "be": "was/were", "have": "had", "go": "went", "do": "did", "say": "said", "make": "made", "take": "took", "see": "saw",
@@ -112,8 +112,8 @@
                     return "will " + verb;
                 case "Past Simple":
                     if (irregularPast.hasOwnProperty(verb)) return irregularPast[verb];
-                    if (verb endsWith("e")) return verb + "d";
-                    if (verb endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
+                    if (verb.endsWith("e")) return verb + "d";
+                    if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
                     return verb + "ed";
                 default:
                     return verb;
