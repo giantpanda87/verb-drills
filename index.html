@@ -112,8 +112,8 @@
                     return "will " + verb;
                 case "Past Simple":
                     if (irregularPast.hasOwnProperty(verb)) return irregularPast[verb];
-                    if (verb endsWith("e")) return verb + "d";
-                    if (verb endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
+                    if (verb.endsWith("e")) return verb + "d";
+                    if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
                     return verb + "ed";
                 default:
                     return verb;
