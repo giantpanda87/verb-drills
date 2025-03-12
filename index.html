@@ -55,6 +55,12 @@
             font-weight: bold;
             color: #28a745;
         }
+        #timer {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #dc3545;
+        }
     </style>
 </head>
 <body>
@@ -65,6 +71,7 @@
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
         <p id="counter">Correct Answers: 0</p>
+        <p id="timer">Time Left: 10s</p>
     </div>
     
     <script>
@@ -81,6 +88,11 @@
         
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
+        let timer;
+        let timeLeft = 10;
+        
+        const correctSound = new Audio('https://www.soundjay.com/button/sounds/button-4.mp3');
+        const incorrectSound = new Audio('https://www.soundjay.com/button/sounds/button-10.mp3');
         
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
@@ -93,6 +105,7 @@
             document.getElementById("question").innerText = `Conjugate "${currentVerb}" for "${currentSubject}" (${currentTense})`;
             document.getElementById("answer").value = "";
             document.getElementById("feedback").innerText = "";
+            resetTimer();
         }
         
         function conjugateVerb(subject, verb, tense) {
@@ -128,8 +141,10 @@
                 document.getElementById("feedback").innerText = "✅ Correct!";
                 correctAnswers++;
                 document.getElementById("counter").innerText = `Correct Answers: ${correctAnswers}`;
+                correctSound.play();
             } else {
                 document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
+                incorrectSound.play();
             }
             
             setTimeout(newQuestion, 2000);
@@ -139,6 +154,24 @@
             if (event.key === "Enter") {
                 checkAnswer();
             }
+        }
+        
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    checkAnswer();
+                }
+            }, 1000);
+        }
+        
+        function resetTimer() {
+            clearInterval(timer);
+            timeLeft = 10;
+            document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
+            startTimer();
         }
         
         newQuestion();
