@@ -49,6 +49,12 @@
             font-size: 18px;
             font-weight: bold;
         }
+        #counter {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #28a745;
+        }
     </style>
 </head>
 <body>
@@ -58,6 +64,7 @@
         <input type="text" id="answer" placeholder="Enter the correct form" onkeydown="handleKeyPress(event)">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
+        <p id="counter">Correct Answers: 0</p>
     </div>
     
     <script>
@@ -73,6 +80,7 @@
         };
         
         let currentVerb, currentSubject, currentTense;
+        let correctAnswers = 0;
         
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
@@ -118,6 +126,8 @@
             
             if (userAnswer === correctAnswer) {
                 document.getElementById("feedback").innerText = "✅ Correct!";
+                correctAnswers++;
+                document.getElementById("counter").innerText = `Correct Answers: ${correctAnswers}`;
             } else {
                 document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
             }
