@@ -55,12 +55,6 @@
             font-weight: bold;
             color: #28a745;
         }
-        #timer {
-            margin-top: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #dc3545;
-        }
     </style>
 </head>
 <body>
@@ -71,12 +65,11 @@
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
         <p id="counter">Correct Answers: 0</p>
-        <p id="timer">Time Left: 10s</p>
     </div>
     
     <script>
         const subjects = ["I", "You", "He", "She", "It", "We", "They"];
-        const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come", "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need", "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help", "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live", "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay", "meet", "include", "continue", "set", "learn", "change", "lead", "understand", "watch", "follow", "analyze", "budget", "collaborate", "delegate", "negotiate", "optimize", "prioritize", "strategize", "facilitate", "implement", "monitor", "coordinate", "evaluate", "generate", "integrate", "review"];
+        const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come", "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need", "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help", "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live", "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay", "meet", "include", "continue", "set", "learn", "change", "lead", "understand", "watch", "follow"];
         const tenses = ["Present Simple", "Present Continuous", "Imperative", "Conditional", "Future Simple", "Past Simple"];
         const irregularPast = {
             "be": "was/were", "have": "had", "go": "went", "do": "did", "say": "said", "make": "made", "take": "took", "see": "saw",
@@ -88,11 +81,6 @@
         
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
-        let timer;
-        let timeLeft = 10;
-        
-        const correctSound = new Audio('https://www.soundjay.com/button/sounds/button-4.mp3');
-        const incorrectSound = new Audio('https://www.soundjay.com/button/sounds/button-10.mp3');
         
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
@@ -105,7 +93,6 @@
             document.getElementById("question").innerText = `Conjugate "${currentVerb}" for "${currentSubject}" (${currentTense})`;
             document.getElementById("answer").value = "";
             document.getElementById("feedback").innerText = "";
-            resetTimer();
         }
         
         function conjugateVerb(subject, verb, tense) {
@@ -125,8 +112,8 @@
                     return "will " + verb;
                 case "Past Simple":
                     if (irregularPast.hasOwnProperty(verb)) return irregularPast[verb];
-                    if (verb.endsWith("e")) return verb + "d";
-                    if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
+                    if (verb endsWith("e")) return verb + "d";
+                    if (verb endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
                     return verb + "ed";
                 default:
                     return verb;
@@ -141,20 +128,20 @@
                 document.getElementById("feedback").innerText = "✅ Correct!";
                 correctAnswers++;
                 document.getElementById("counter").innerText = `Correct Answers: ${correctAnswers}`;
-                correctSound.play();
             } else {
-                document.getElementById("feedback").innerHTML = `❌ Incorrect. Your answer: "${userAnswer}". Correct answer: "${correctAnswer}".<br>Explanation: ${getExplanation(currentVerb, currentTense)}`;
-                incorrectSound.play();
+                document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
             }
             
             setTimeout(newQuestion, 2000);
         }
         
-        function getExplanation(verb, tense) {
-            switch (tense) {
-                case "Present Simple":
-                    return `In the Present Simple tense, we add 's' or 'es' to the base form of the verb for third person singular subjects (he, she, it). For example, "go" becomes "goes".`;
-                case "Present Continuous":
-                    return `In the Present Continuous tense, we use the verb 'to be' (am, is, are) followed by the base form of the verb + 'ing'. For example, "go" becomes "going".`;
-                case "Imperative":
-                    return `In the Imperative tense, we use the base form of the verb. For example, "go" remains "go".`;
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                checkAnswer();
+            }
+        }
+        
+        newQuestion();
+    </script>
+</body>
+</html>
