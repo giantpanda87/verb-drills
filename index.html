@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verb Drill Practice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        #container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #333;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #feedback {
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h2>Verb Drill</h2>
+        <p id="question"></p>
+        <input type="text" id="answer" placeholder="Enter the correct form" onkeydown="handleKeyPress(event)">
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="feedback"></p>
+    </div>
+    
+    <script>
+        const subjects = ["I", "You", "He", "She", "It", "We", "They"];
+        const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come", "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need", "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help", "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live", "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay", "meet", "include", "continue", "set", "learn", "change", "lead", "understand", "watch", "follow"];
+        const tenses = ["Present Simple", "Present Continuous", "Imperative", "Conditional", "Future Simple", "Past Simple"];
+        const irregularPast = {
+            "be": "was/were", "have": "had", "go": "went", "do": "did", "say": "said", "make": "made", "take": "took", "see": "saw",
+            "come": "came", "know": "knew", "get": "got", "give": "gave", "think": "thought", "tell": "told", "leave": "left", "put": "put",
+            "mean": "meant", "keep": "kept", "let": "let", "begin": "began", "show": "showed", "hear": "heard", "run": "ran", "sit": "sat",
+            "stand": "stood", "lose": "lost", "pay": "paid", "meet": "met", "set": "set", "lead": "led", "write": "wrote", "bring": "brought",
+            "hold": "held", "read": "read"
+        };
+        
+        let currentVerb, currentSubject, currentTense;
+        
+        function getRandomElement(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
+        }
+        
+        function newQuestion() {
+            currentSubject = getRandomElement(subjects);
+            currentVerb = getRandomElement(verbs);
+            currentTense = getRandomElement(tenses);
+            document.getElementById("question").innerText = `Conjugate "${currentVerb}" for "${currentSubject}" (${currentTense})`;
+            document.getElementById("answer").value = "";
+            document.getElementById("feedback").innerText = "";
+        }
+        
+        function conjugateVerb(subject, verb, tense) {
+            switch (tense) {
+                case "Present Simple":
+                    if (verb === "be") return subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
+                    if (verb === "have") return ["He", "She", "It"].includes(subject) ? "has" : "have";
+                    if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
+                    return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
+                case "Present Continuous":
+                    return (subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are")) + " " + verb + "ing";
+                case "Imperative":
+                    return verb;
+                case "Conditional":
+                    return "would " + verb;
+                case "Future Simple":
+                    return "will " + verb;
+                case "Past Simple":
+                    if (irregularPast.hasOwnProperty(verb)) return irregularPast[verb];
+                    if (verb.endsWith("e")) return verb + "d";
+                    if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
+                    return verb + "ed";
+                default:
+                    return verb;
+            }
+        }
+        
+        function checkAnswer() {
+            const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+            const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense);
+            
+            if (userAnswer === correctAnswer) {
+                document.getElementById("feedback").innerText = "✅ Correct!";
+            } else {
+                document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
+            }
+            
+            setTimeout(newQuestion, 2000);
+        }
+        
+        function handleKeyPress(event) {
+            if (event.key === "Enter") {
+                checkAnswer();
+            }
+        }
+        
+        newQuestion();
+    </script>
+</body>
+</html>
