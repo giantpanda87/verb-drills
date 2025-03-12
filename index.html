@@ -143,38 +143,18 @@
                 document.getElementById("counter").innerText = `Correct Answers: ${correctAnswers}`;
                 correctSound.play();
             } else {
-                document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
+                document.getElementById("feedback").innerHTML = `❌ Incorrect. Your answer: "${userAnswer}". Correct answer: "${correctAnswer}".<br>Explanation: ${getExplanation(currentVerb, currentTense)}`;
                 incorrectSound.play();
             }
             
             setTimeout(newQuestion, 2000);
         }
         
-        function handleKeyPress(event) {
-            if (event.key === "Enter") {
-                checkAnswer();
-            }
-        }
-        
-        function startTimer() {
-            timer = setInterval(() => {
-                timeLeft--;
-                document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
-                if (timeLeft <= 0) {
-                    clearInterval(timer);
-                    checkAnswer();
-                }
-            }, 1000);
-        }
-        
-        function resetTimer() {
-            clearInterval(timer);
-            timeLeft = 10;
-            document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
-            startTimer();
-        }
-        
-        newQuestion();
-    </script>
-</body>
-</html>
+        function getExplanation(verb, tense) {
+            switch (tense) {
+                case "Present Simple":
+                    return `In the Present Simple tense, we add 's' or 'es' to the base form of the verb for third person singular subjects (he, she, it). For example, "go" becomes "goes".`;
+                case "Present Continuous":
+                    return `In the Present Continuous tense, we use the verb 'to be' (am, is, are) followed by the base form of the verb + 'ing'. For example, "go" becomes "going".`;
+                case "Imperative":
+                    return `In the Imperative tense, we use the base form of the verb. For example, "go" remains "go".`;
