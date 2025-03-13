@@ -35,6 +35,11 @@
         .question-part strong {
             font-weight: bold;
         }
+        .highlight {
+            background-color: #ffeb3b; /* Light yellow background for highlighting */
+            padding: 2px 5px;
+            border-radius: 3px;
+        }
         input {
             width: calc(100% - 22px); /* Adjust width to leave space for padding and border */
             padding: 10px;
@@ -90,9 +95,9 @@
 <body>
     <div id="container">
         <h2>Verb Drill</h2>
-        <div class="question-part"><strong>Verb:</strong> <span id="verb"></span></div>
-        <div class="question-part"><strong>Subject:</strong> <span id="subject"></span></div>
-        <div class="question-part"><strong>Tense:</strong> <span id="tense"></span></div>
+        <div class="question-part"><strong>Verb:</strong> <span id="verb" class="highlight"></span></div>
+        <div class="question-part"><strong>Subject:</strong> <span id="subject" class="highlight"></span></div>
+        <div class="question-part"><strong>Tense:</strong> <span id="tense" class="highlight"></span></div>
         <input type="text" id="answer" placeholder="Enter the correct form" onkeydown="handleKeyPress(event)">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
