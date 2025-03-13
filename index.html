@@ -93,6 +93,18 @@
             font-weight: bold;
             color: #28a745;
         }
+        #highScore {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ff9900;
+        }
+        #streak {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #007BFF;
+        }
 
         @media (max-width: 600px) {
             h2 {
@@ -110,7 +122,7 @@
                 font-size: 14px;
                 padding: 12px;
             }
-            #feedback, #counter {
+            #feedback, #counter, #highScore, #streak {
                 font-size: 16px;
             }
         }
@@ -149,6 +161,8 @@
             <button onclick="checkAnswer()">Submit</button>
             <p id="feedback"></p>
             <p id="counter">Correct Answers: <span id="correctAnswers">0</span></p>
+            <p id="highScore">High Score: <span id="highScoreValue">0</span></p>
+            <p id="streak">Streak: <span id="streakCount">0</span></p>
         </div>
     </div>
 
@@ -166,6 +180,10 @@
 
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
+        let streak = 0;
+        let highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
+
+        document.getElementById('highScoreValue').innerText = highScore;
 
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
@@ -219,14 +237,23 @@
             if (userAnswer === correctAnswer) {
                 document.getElementById("feedback").innerText = "✅ Correct!";
                 correctAnswers++;
+                streak++;
                 document.getElementById("correctAnswers").innerText = correctAnswers;
-                localStorage.setItem('correctAnswers', correctAnswers);
+                document.getElementById("streakCount").innerText = streak;
+
+                if (correctAnswers > highScore) {
+                    highScore = correctAnswers;
+                    localStorage.setItem('highScore', highScore);
+                    document.getElementById('highScoreValue').innerText = highScore;
+                }
             } else {
                 document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
                 document.getElementById("feedback").classList.add("shake");
                 setTimeout(() => {
                     document.getElementById("feedback").classList.remove("shake");
                 }, 500);
+                streak = 0;  // Reset streak on incorrect answer
+                document.getElementById("streakCount").innerText = streak;
             }
 
             setTimeout(newQuestion, 2000);
