@@ -125,7 +125,7 @@
         <input type="text" id="answer" placeholder="Enter the correct form" onkeydown="handleKeyPress(event)">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
-        <p id="counter">Correct Answers: 0</p>
+        <p id="counter">Correct Answers: <span id="correctAnswers">0</span></p>
     </div>
 
     <script>
@@ -166,7 +166,15 @@
                     if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
-                    return (subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are")) + " " + verb + "ing";
+                    let ingForm = verb;
+                    if (verb.endsWith("e") && !verb.endsWith("ee")) {
+                        ingForm = verb.slice(0, -1) + "ing";
+                    } else if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) {
+                        ingForm = verb.slice(0, -1) + "ying";
+                    } else {
+                        ingForm = verb + "ing";
+                    }
+                    return (subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are")) + " " + ingForm;
                 case "Imperative":
                     return verb;
                 case "Conditional":
@@ -190,7 +198,8 @@
             if (userAnswer === correctAnswer) {
                 document.getElementById("feedback").innerText = "✅ Correct!";
                 correctAnswers++;
-                document.getElementById("counter").innerText = `Correct Answers: ${correctAnswers}`;
+                document.getElementById("correctAnswers").innerText = correctAnswers;
+                localStorage.setItem('correctAnswers', correctAnswers);
             } else {
                 document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
             }
@@ -204,6 +213,15 @@
             }
         }
 
+        function loadSavedScore() {
+            const savedScore = localStorage.getItem('correctAnswers');
+            if (savedScore !== null) {
+                correctAnswers = parseInt(savedScore, 10);
+                document.getElementById("correctAnswers").innerText = correctAnswers;
+            }
+        }
+
+        loadSavedScore();
         newQuestion();
     </script>
 </body>
