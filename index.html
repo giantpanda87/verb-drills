@@ -28,6 +28,13 @@
             color: #333;
             font-size: 28px;
         }
+        .question-part {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+        .question-part strong {
+            font-weight: bold;
+        }
         input {
             width: calc(100% - 22px); /* Adjust width to leave space for padding and border */
             padding: 10px;
@@ -67,6 +74,9 @@
             h2 {
                 font-size: 24px;
             }
+            .question-part {
+                font-size: 16px;
+            }
             input, button {
                 font-size: 14px;
                 padding: 8px;
@@ -80,7 +90,9 @@
 <body>
     <div id="container">
         <h2>Verb Drill</h2>
-        <p id="question"></p>
+        <div class="question-part"><strong>Verb:</strong> <span id="verb"></span></div>
+        <div class="question-part"><strong>Subject:</strong> <span id="subject"></span></div>
+        <div class="question-part"><strong>Tense:</strong> <span id="tense"></span></div>
         <input type="text" id="answer" placeholder="Enter the correct form" onkeydown="handleKeyPress(event)">
         <button onclick="checkAnswer()">Submit</button>
         <p id="feedback"></p>
@@ -110,7 +122,9 @@
             currentSubject = getRandomElement(subjects);
             currentVerb = getRandomElement(verbs);
             currentTense = getRandomElement(tenses);
-            document.getElementById("question").innerText = `Conjugate "${currentVerb}" for "${currentSubject}" (${currentTense})`;
+            document.getElementById("verb").innerText = currentVerb;
+            document.getElementById("subject").innerText = currentSubject.toLowerCase();
+            document.getElementById("tense").innerText = currentTense.toLowerCase();
             document.getElementById("answer").value = "";
             document.getElementById("feedback").innerText = "";
         }
