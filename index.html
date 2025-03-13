@@ -27,8 +27,9 @@
             border-radius: 15px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             display: flex;
-            flex-direction: row;
-            align-items: flex-start;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
         }
         .content {
             display: flex;
@@ -40,13 +41,17 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-right: 20px;
+            margin-bottom: 20px;
+            width: 100%;
+            transition: transform 0.3s ease;
         }
         .tense-checkboxes label {
             display: flex;
             align-items: center;
             margin: 5px 0;
             font-size: 16px;
+            width: 100%;
+            justify-content: space-between;
         }
         .tense-checkboxes input {
             margin-right: 8px;
@@ -108,15 +113,29 @@
             font-weight: bold;
             color: #28a745;
         }
+        .toggle-button {
+            display: none;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 15px;
+            cursor: pointer;
+            z-index: 10;
+        }
 
         @media (max-width: 600px) {
-            #container {
-                flex-direction: column;
-                align-items: center;
-            }
             .tense-checkboxes {
-                margin-bottom: 20px;
-                align-items: center;
+                transform: translateX(-100%);
+            }
+            .toggle-button {
+                display: block;
+            }
+            #container.tenses-visible .tense-checkboxes {
+                transform: translateX(0);
             }
             h2 {
                 font-size: 26px;
@@ -141,6 +160,7 @@
 </head>
 <body>
     <div id="container">
+        <button id="toggleTenses" class="toggle-button">Show Tenses</button>
         <div class="tense-checkboxes">
             <label><input type="checkbox" value="Present Simple" checked> Present Simple</label>
             <label><input type="checkbox" value="Present Continuous" checked> Present Continuous</label>
@@ -278,6 +298,11 @@
                 document.getElementById("correctAnswers").innerText = correctAnswers;
             }
         }
+
+        document.getElementById('toggleTenses').addEventListener('click', function() {
+            document.getElementById('container').classList.toggle('tenses-visible');
+            this.textContent = document.getElementById('container').classList.contains('tenses-visible') ? 'Hide Tenses' : 'Show Tenses';
+        });
 
         loadSavedScore();
         newQuestion();
