@@ -29,7 +29,6 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            position: relative;
         }
         .content {
             display: flex;
@@ -41,9 +40,8 @@
             display: flex;
             flex-direction: column;
             align-items: flex-start;
-            margin-bottom: 20px;
+            margin-top: 20px;
             width: 100%;
-            transition: transform 0.3s ease;
         }
         .tense-checkboxes label {
             display: flex;
@@ -51,7 +49,7 @@
             margin: 5px 0;
             font-size: 16px;
             width: 100%;
-            justify-content: space-between;
+            justify-content: flex-start;
         }
         .tense-checkboxes input {
             margin-right: 8px;
@@ -113,30 +111,8 @@
             font-weight: bold;
             color: #28a745;
         }
-        .toggle-button {
-            display: none;
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 15px;
-            cursor: pointer;
-            z-index: 10;
-        }
 
         @media (max-width: 600px) {
-            .tense-checkboxes {
-                transform: translateX(-100%);
-            }
-            .toggle-button {
-                display: block;
-            }
-            #container.tenses-visible .tense-checkboxes {
-                transform: translateX(0);
-            }
             h2 {
                 font-size: 26px;
             }
@@ -160,15 +136,6 @@
 </head>
 <body>
     <div id="container">
-        <button id="toggleTenses" class="toggle-button">Show Tenses</button>
-        <div class="tense-checkboxes">
-            <label><input type="checkbox" value="Present Simple" checked> Present Simple</label>
-            <label><input type="checkbox" value="Present Continuous" checked> Present Continuous</label>
-            <label><input type="checkbox" value="Imperative" checked> Imperative</label>
-            <label><input type="checkbox" value="Conditional" checked> Conditional</label>
-            <label><input type="checkbox" value="Future Simple" checked> Future Simple</label>
-            <label><input type="checkbox" value="Past Simple" checked> Past Simple</label>
-        </div>
         <div class="content">
             <h2>Verb Drill</h2>
             <div class="question-part">
@@ -187,6 +154,14 @@
             <button onclick="checkAnswer()">Submit</button>
             <p id="feedback"></p>
             <p id="counter">Correct Answers: <span id="correctAnswers">0</span></p>
+        </div>
+        <div class="tense-checkboxes">
+            <label><input type="checkbox" value="Present Simple" checked> Present Simple</label>
+            <label><input type="checkbox" value="Present Continuous" checked> Present Continuous</label>
+            <label><input type="checkbox" value="Imperative" checked> Imperative</label>
+            <label><input type="checkbox" value="Conditional" checked> Conditional</label>
+            <label><input type="checkbox" value="Future Simple" checked> Future Simple</label>
+            <label><input type="checkbox" value="Past Simple" checked> Past Simple</label>
         </div>
     </div>
 
@@ -298,11 +273,6 @@
                 document.getElementById("correctAnswers").innerText = correctAnswers;
             }
         }
-
-        document.getElementById('toggleTenses').addEventListener('click', function() {
-            document.getElementById('container').classList.toggle('tenses-visible');
-            this.textContent = document.getElementById('container').classList.contains('tenses-visible') ? 'Hide Tenses' : 'Show Tenses';
-        });
 
         loadSavedScore();
         newQuestion();
