@@ -10,17 +10,23 @@
             text-align: center;
             padding: 20px;
             background-color: #f4f4f4;
+            margin: 0;
         }
         #container {
             max-width: 400px;
+            width: 90%;
             margin: auto;
             padding: 20px;
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         h2 {
             color: #333;
+            font-size: 28px;
         }
         input {
             width: calc(100% - 22px); /* Adjust width to leave space for padding and border */
@@ -40,6 +46,7 @@
             border-radius: 5px;
             font-size: 16px;
             cursor: pointer;
+            min-height: 44px;
         }
         button:hover {
             background-color: #0056b3;
@@ -55,6 +62,19 @@
             font-weight: bold;
             color: #28a745;
         }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 24px;
+            }
+            input, button {
+                font-size: 14px;
+                padding: 8px;
+            }
+            #feedback, #counter {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -66,7 +86,7 @@
         <p id="feedback"></p>
         <p id="counter">Correct Answers: 0</p>
     </div>
-    
+
     <script>
         const subjects = ["I", "You", "He", "She", "It", "We", "They"];
         const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come", "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need", "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help", "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live", "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay", "meet", "include", "continue", "set", "learn", "change", "lead", "understand", "watch", "follow", "analyze", "budget", "collaborate", "delegate", "negotiate", "optimize", "prioritize", "strategize", "facilitate", "implement", "monitor", "coordinate", "evaluate", "generate", "integrate", "review"];
@@ -78,14 +98,14 @@
             "stand": "stood", "lose": "lost", "pay": "paid", "meet": "met", "set": "set", "lead": "led", "write": "wrote", "bring": "brought",
             "hold": "held", "read": "read"
         };
-        
+
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
-        
+
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
-        
+
         function newQuestion() {
             currentSubject = getRandomElement(subjects);
             currentVerb = getRandomElement(verbs);
@@ -94,7 +114,7 @@
             document.getElementById("answer").value = "";
             document.getElementById("feedback").innerText = "";
         }
-        
+
         function conjugateVerb(subject, verb, tense) {
             switch (tense) {
                 case "Present Simple":
@@ -119,11 +139,11 @@
                     return verb;
             }
         }
-        
+
         function checkAnswer() {
             const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
             const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense);
-            
+
             if (userAnswer === correctAnswer) {
                 document.getElementById("feedback").innerText = "✅ Correct!";
                 correctAnswers++;
@@ -131,16 +151,16 @@
             } else {
                 document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
             }
-            
+
             setTimeout(newQuestion, 2000);
         }
-        
+
         function handleKeyPress(event) {
             if (event.key === "Enter") {
                 checkAnswer();
             }
         }
-        
+
         newQuestion();
     </script>
 </body>
