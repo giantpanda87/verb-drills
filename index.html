@@ -36,24 +36,6 @@
             align-items: center;
             width: 100%;
         }
-        .tense-checkboxes {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            margin-top: 20px;
-            width: 100%;
-        }
-        .tense-checkboxes label {
-            display: flex;
-            align-items: center;
-            margin: 5px 0;
-            font-size: 16px;
-            width: 100%;
-            justify-content: flex-start;
-        }
-        .tense-checkboxes input {
-            margin-right: 8px;
-        }
         h2 {
             color: #4CAF50;
             font-size: 30px;
@@ -155,14 +137,6 @@
             <p id="feedback"></p>
             <p id="counter">Correct Answers: <span id="correctAnswers">0</span></p>
         </div>
-        <div class="tense-checkboxes">
-            <label><input type="checkbox" value="Present Simple" checked> Present Simple</label>
-            <label><input type="checkbox" value="Present Continuous" checked> Present Continuous</label>
-            <label><input type="checkbox" value="Imperative" checked> Imperative</label>
-            <label><input type="checkbox" value="Conditional" checked> Conditional</label>
-            <label><input type="checkbox" value="Future Simple" checked> Future Simple</label>
-            <label><input type="checkbox" value="Past Simple" checked> Past Simple</label>
-        </div>
     </div>
 
     <script>
@@ -179,31 +153,15 @@
 
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
-        let selectedTenses = tenses;
 
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
-        function updateSelectedTenses() {
-            const checkboxes = document.querySelectorAll('.tense-checkboxes input[type="checkbox"]');
-            selectedTenses = [];
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    selectedTenses.push(checkbox.value);
-                }
-            });
-            if (selectedTenses.length === 0) {
-                alert("Please select at least one tense.");
-                newQuestion();
-            }
-        }
-
         function newQuestion() {
-            updateSelectedTenses();
             currentSubject = getRandomElement(subjects);
             currentVerb = getRandomElement(verbs);
-            currentTense = getRandomElement(selectedTenses);
+            currentTense = getRandomElement(tenses);
             document.getElementById("verb").innerText = currentVerb;
             document.getElementById("subject").innerText = currentSubject.toLowerCase();
             document.getElementById("tense").innerText = currentTense.toLowerCase();
