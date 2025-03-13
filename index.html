@@ -84,6 +84,16 @@
             font-weight: bold;
             color: #28a745;
         }
+        .tense-checkboxes {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        .tense-checkboxes label {
+            margin: 5px 0;
+            font-size: 16px;
+        }
 
         @media (max-width: 600px) {
             h2 {
@@ -110,6 +120,14 @@
 <body>
     <div id="container">
         <h2>Verb Drill</h2>
+        <div class="tense-checkboxes">
+            <label><input type="checkbox" value="Present Simple" checked> Present Simple</label>
+            <label><input type="checkbox" value="Present Continuous" checked> Present Continuous</label>
+            <label><input type="checkbox" value="Imperative" checked> Imperative</label>
+            <label><input type="checkbox" value="Conditional" checked> Conditional</label>
+            <label><input type="checkbox" value="Future Simple" checked> Future Simple</label>
+            <label><input type="checkbox" value="Past Simple" checked> Past Simple</label>
+        </div>
         <div class="question-part">
             <strong><img src="https://img.icons8.com/material-outlined/24/000000/speech-bubble.png" alt="Verb Icon"/> Verb:</strong>
             <span id="verb" class="highlight"></span>
@@ -142,15 +160,31 @@
 
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
+        let selectedTenses = tenses;
 
         function getRandomElement(arr) {
             return arr[Math.floor(Math.random() * arr.length)];
         }
 
+        function updateSelectedTenses() {
+            const checkboxes = document.querySelectorAll('.tense-checkboxes input[type="checkbox"]');
+            selectedTenses = [];
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedTenses.push(checkbox.value);
+                }
+            });
+            if (selectedTenses.length === 0) {
+                alert("Please select at least one tense.");
+                newQuestion();
+            }
+        }
+
         function newQuestion() {
+            updateSelectedTenses();
             currentSubject = getRandomElement(subjects);
             currentVerb = getRandomElement(verbs);
-            currentTense = getRandomElement(tenses);
+            currentTense = getRandomElement(selectedTenses);
             document.getElementById("verb").innerText = currentVerb;
             document.getElementById("subject").innerText = currentSubject.toLowerCase();
             document.getElementById("tense").innerText = currentTense.toLowerCase();
