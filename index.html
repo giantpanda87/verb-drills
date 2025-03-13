@@ -114,6 +114,19 @@
                 font-size: 16px;
             }
         }
+
+        /* Shake Animation */
+        @keyframes shake {
+            0% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            50% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+            100% { transform: translateX(0); }
+        }
+
+        #feedback.shake {
+            animation: shake 0.5s ease-in-out;
+        }
     </style>
 </head>
 <body>
@@ -163,7 +176,7 @@
             currentVerb = getRandomElement(verbs);
             currentTense = getRandomElement(tenses);
             document.getElementById("verb").innerText = currentVerb;
-            document.getElementById("subject").innerText = currentSubject.toLowerCase();
+            document.getElementById("subject").innerText = currentSubject === "I" ? "I" : currentSubject.toLowerCase(); // Ensure "I" is uppercase
             document.getElementById("tense").innerText = currentTense.toLowerCase();
             document.getElementById("answer").value = "";
             document.getElementById("feedback").innerText = "";
@@ -185,26 +198,23 @@
                     } else {
                         ingForm = verb + "ing";
                     }
-                    return (subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are")) + " " + ingForm;
+                    return subject + " is " + ingForm;
                 case "Imperative":
-                    return verb;
+                    return verb === "be" ? "be" : verb;
                 case "Conditional":
-                    return "would " + verb;
+                    return subject === "I" || subject === "We" ? `would ${verb}` : `would ${verb}`;
                 case "Future Simple":
-                    return "will " + verb;
+                    return `will ${verb}`;
                 case "Past Simple":
-                    if (irregularPast.hasOwnProperty(verb)) return irregularPast[verb];
-                    if (verb.endsWith("e")) return verb + "d";
-                    if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) return verb.slice(0, -1) + "ied";
-                    return verb + "ed";
+                    return irregularPast[verb] || `${verb}ed`;
                 default:
-                    return verb;
+                    return "";
             }
         }
 
         function checkAnswer() {
             const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
-            const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense);
+            const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
 
             if (userAnswer === correctAnswer) {
                 document.getElementById("feedback").innerText = "✅ Correct!";
@@ -213,6 +223,10 @@
                 localStorage.setItem('correctAnswers', correctAnswers);
             } else {
                 document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
+                document.getElementById("feedback").classList.add("shake");
+                setTimeout(() => {
+                    document.getElementById("feedback").classList.remove("shake");
+                }, 500);
             }
 
             setTimeout(newQuestion, 2000);
@@ -224,16 +238,7 @@
             }
         }
 
-        function loadSavedScore() {
-            const savedScore = localStorage.getItem('correctAnswers');
-            if (savedScore !== null) {
-                correctAnswers = parseInt(savedScore, 10);
-                document.getElementById("correctAnswers").innerText = correctAnswers;
-            }
-        }
-
-        loadSavedScore();
-        newQuestion();
+        newQuestion();  // Start with the first question
     </script>
 </body>
 </html>
