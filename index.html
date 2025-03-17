@@ -208,7 +208,7 @@
                     if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
-                        // Handle special verbs (like "meet") first
+                        // Handle special verbs like "meet", "follow" etc.
                     const specialVerbs = ["meet", "feel", "seal", "heat", "need", "seem", "sleep", "peel", "complete", "greet", "follow"];
     
                     let ingForm = verb;
@@ -225,13 +225,14 @@
                         ingForm = verb + "ing";  // default case (including special cases like "meet" and "follow")
                     }
     
-                        // Default subject, you can change this to any fixed subject
+                        // Default subject, you can change this to any fixed subject or add randomization logic
                     let subject = "I";  // You can change this to any fixed subject or add randomization logic
     
-                    // Correct conjugation of 'be' (I am, he is, etc.)
+                        // Correct conjugation of 'be' (I am, he is, etc.)
                     let beForm = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
-                    return `${subject} ${beForm} ${ingForm}`;
 
+                        // Return the full sentence with the subject and conjugated verb
+                    return `${subject} ${beForm} ${ingForm}`;
                 case "Imperative":
                     return verb === "be" ? "be" : verb;
                 case "Conditional":
