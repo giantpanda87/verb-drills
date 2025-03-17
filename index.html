@@ -234,15 +234,68 @@
                 case "Future Simple":
                     return `will ${verb}`;
                 case "Past Simple":
-                    if (irregularPast[verb]) {
-                        return irregularPast[verb];  // Use irregular past (e.g., "go" → "went")
-                    } else if (verb.endsWith("e")) {
-                        return verb + "d";  // "like" → "liked"
-                    } else if (verb.endsWith("y") && !/[aeiou]/.test(verb[verb.length - 2])) {
-                        return verb.slice(0, -1) + "ied";  // "try" → "tried"
-                    } else {
-                        return verb + "ed";  // Default rule
+                    const irregularVerbs = {
+                        "be": "was/were",
+                        "become": "became",
+                        "begin": "began",
+                        "break": "broke",
+                        "bring": "brought",
+                        "build": "built",
+                        "buy": "bought",
+                        "catch": "caught",
+                        "choose": "chose",
+                        "come": "came",
+                        "do": "did",
+                        "drink": "drank",
+                        "drive": "drove",
+                        "eat": "ate",
+                        "fall": "fell",
+                        "feel": "felt",
+                        "find": "found",
+                        "get": "got",
+                        "give": "gave",
+                        "go": "went",
+                        "have": "had",
+                        "hear": "heard",
+                        "keep": "kept",
+                        "know": "knew",
+                        "leave": "left",
+                        "lose": "lost",
+                        "make": "made",
+                        "meet": "met",
+                        "pay": "paid",
+                        "read": "read",
+                        "run": "ran",
+                        "say": "said",
+                        "see": "saw",
+                        "sing": "sang",
+                        "speak": "spoke",
+                        "take": "took",
+                        "teach": "taught",
+                        "tell": "told",
+                        "think": "thought",
+                        "understand": "understood",
+                        "write": "wrote"
+                    };
+
+                    // Check if the verb is irregular and return the correct past form
+                    if (irregularVerbs[verb]) {
+                        return irregularVerbs[verb];  // e.g., "become" → "became"
+                    } 
+                    // For regular verbs, add "ed" (with exceptions for some cases like double consonants, ending with "e", etc.)
+                    else {
+                        let pastForm = verb;
+                        if (verb.endsWith("e")) {
+                            pastForm += "d";  // e.g., "love" → "loved"
+                        } 
+                        else if (/([aeiou][bcdfghjklmnpqrstvwxyz])$/.test(verb)) {
+                            pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
+                        } else {
+                            pastForm += "ed";  // default case for regular verbs
+                        }
+                        return pastForm;
                     }
+
                 default:
                     return "";
             }
