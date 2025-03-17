@@ -220,14 +220,17 @@
                     // Only double the consonant for verbs ending in a single vowel + consonant
                     else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !specialVerbs.includes(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
                         ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
-                    } 
+                    }
                     else {
                         ingForm = verb + "ing";  // default case (including special verbs like "meet")
                     }
 
-                    // Return the correct conjugation of the verb without the subject
+                    // Define the conjugation of "to be" based on the subject
                     const toBeConjugation = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
+
+                    // Return the correct conjugation of the verb with the subject
                     return `${toBeConjugation} ${ingForm}`;
+
                 case "Imperative":
                     return verb === "be" ? "be" : verb;
                 case "Conditional":
