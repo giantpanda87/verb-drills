@@ -216,7 +216,9 @@
                     } else {
                         ingForm = verb + "ing";
                     }
-                    return subject + " is " + ingForm;
+                    // Correct conjugation of 'be'
+                    let beForm = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
+                    return `${subject} ${beForm} ${ingForm}`;
                 case "Imperative":
                     return verb === "be" ? "be" : verb;
                 case "Conditional":
