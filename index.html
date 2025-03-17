@@ -239,7 +239,6 @@
                     return `will ${verb}`;
                 case "Past Simple":
                     const irregularVerbs = {
-                        "be": "was/were",
                         "become": "became",
                         "begin": "began",
                         "break": "broke",
@@ -284,6 +283,9 @@
                     };
                 
                     // Check if the verb is irregular and return the correct past form
+                    if (verb === "be") {
+                        return subject === "I" || subject === "He" || subject === "She" || subject === "It" ? "was" : "were";
+                    }
                     if (irregularVerbs[verb]) {
                         return irregularVerbs[verb];  // e.g., "become" → "became"
                     }
