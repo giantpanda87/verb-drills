@@ -208,37 +208,29 @@
                     if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
-                        // Handle special verbs (no need to double consonants for these)
-                    const specialVerbs = ["meet", "feel", "seal", "heat", "need", "seem", "sleep", "peel", "complete", "greet", "follow"];
-    
                     let ingForm = verb;
 
                         // Remove "e" for verbs ending in "e" (except "be")
                     if (verb.endsWith("e") && verb !== "be") {
                         ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                     }
-                        // Only double the consonant for verbs ending in a single vowel + consonant
-                    else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !specialVerbs.includes(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
+                        // Double the consonant for verbs ending in a single vowel + consonant
+                    else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
                         ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
-                    } 
-                    else {
-                        ingForm = verb + "ing";  // default case (including special verbs like "meet")
+                    } else {
+                        ingForm = verb + "ing";  // default case
                     }
 
-                    // Get the conjugated form of 'to be' from the user input
-                    let toBeConjugation = userInput.split(' ')[0];  // assuming the first part of the input is the conjugation of "to be"
-    
-                    // Determine the corresponding subject based on the form of "to be"
-                    let subject = "";
-                    if (toBeConjugation === "am") {
-                        subject = "I";
-                    } else if (toBeConjugation === "is") {
-                        subject = "he/she/it";
-                    } else if (toBeConjugation === "are") {
-                        subject = "you/they/we";
+                        // Determine the correct form of "to be"
+                    let toBeConjugation = "";
+                    if (subject === "I") {
+                        toBeConjugation = "am";
+                    } else if (["He", "She", "It"].includes(subject)) {
+                        toBeConjugation = "is";
+                    } else {
+                        toBeConjugation = "are";
                     }
-
-                        // Return the full sentence with the correct subject and conjugated verb
+                    
                     return `${subject} ${toBeConjugation} ${ingForm}`;
 
                 case "Imperative":
