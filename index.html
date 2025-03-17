@@ -226,6 +226,7 @@
                     }
 
                     // Return the correct conjugation of the verb without the subject
+                    const toBeConjugation = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
                     return `${toBeConjugation} ${ingForm}`;
                 case "Imperative":
                     return verb === "be" ? "be" : verb;
