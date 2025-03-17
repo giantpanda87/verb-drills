@@ -209,12 +209,12 @@
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
                     let ingForm = verb;
-                    if (verb.endsWith("e") && !verb.endsWith("ee")) {
-                        ingForm = verb.slice(0, -1) + "ing";
-                    } else if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2])) {
-                        ingForm = verb.slice(0, -1) + "ying";
+                    if (verb.endsWith("e") && verb !== "be") {
+                        ingForm = verb.slice(0, -1) + "ing";  // remove "e" for verbs like "make" → "making"
+                    } else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb)) {
+                        ingForm = verb + verb[verb.length - 1] + "ing";  // double consonant (e.g., "run" → "running")
                     } else {
-                        ingForm = verb + "ing";
+                        ingForm = verb + "ing";  // default case
                     }
                     // Correct conjugation of 'be'
                     let beForm = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
@@ -226,7 +226,15 @@
                 case "Future Simple":
                     return `will ${verb}`;
                 case "Past Simple":
-                    return irregularPast[verb] || `${verb}ed`;
+                    if (irregularPast[verb]) {
+                        return irregularPast[verb];  // Use irregular past (e.g., "go" → "went")
+                    } else if (verb.endsWith("e")) {
+                        return verb + "d";  // "like" → "liked"
+                    } else if (verb.endsWith("y") && !/[aeiou]/.test(verb[verb.length - 2])) {
+                        return verb.slice(0, -1) + "ied";  // "try" → "tried"
+                    } else {
+                        return verb + "ed";  // Default rule
+                    }
                 default:
                     return "";
             }
