@@ -208,6 +208,9 @@
                     if (["go", "do", "try"].includes(verb) && ["He", "She", "It"].includes(subject)) {
                         return verb === "go" ? "goes" : (verb === "do" ? "does" : "tries");
                     }
+                    if (verb.endsWith("y") && !["a", "e", "i", "o", "u"].includes(verb[verb.length - 2]) && ["He", "She", "It"].includes(subject)) {
+                        return verb.slice(0, -1) + "ies";  // e.g., "fly" → "flies"
+                    }
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
                    // Define consonants that never double
