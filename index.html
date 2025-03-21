@@ -208,8 +208,8 @@
                     if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
-                    // Handle special verbs (no need to double consonants for these)
-                    const specialVerbs = ["meet", "feel", "seal", "heat", "need", "seem", "sleep", "peel", "complete", "greet", "follow"];
+                   // Define consonants that never double
+                    const nonDoublingConsonants = ['c', 'h', 'j', 'k', 'q', 'v', 'w', 'x', 'y'];
 
                     let ingForm = verb;
 
@@ -217,12 +217,12 @@
                     if (verb.endsWith("e") && verb !== "be") {
                         ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                     }
-                    // Only double the consonant for verbs ending in a single vowel + certain consonants
-                    else if (verb.length > 2 && /[aeiou][bdfglmnprstz]$/.test(verb) && !specialVerbs.includes(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
+                     // Only double the consonant for verbs ending in a single vowel + certain consonants
+                    else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvz]$/.test(verb) && !nonDoublingConsonants.includes(verb[verb.length - 1])) {
                         ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
                     }
                     else {
-                        ingForm = verb + "ing";  // default case (including special verbs like "meet")
+                        ingForm = verb + "ing";  // default case
                     }
 
                     // Define the conjugation of "to be" based on the subject
