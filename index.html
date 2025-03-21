@@ -238,6 +238,9 @@
                 case "Future Simple":
                     return `will ${verb}`;
                 case "Past Simple":
+
+                    const nonDoublingConsonants = ['c', 'h', 'j', 'k', 'q', 'v', 'w', 'x', 'y'];
+                    
                     const irregularVerbs = {
                         "become": "became",
                         "begin": "began",
@@ -297,7 +300,7 @@
                         if (verb.endsWith("e")) {
                             pastForm += "d";  // e.g., "love" → "loved"
                         }
-                        else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
+                        else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !nonDoublingConsonants.includes(verb[verb.length - 1]) && !/[aeiou]{2}d$/.test(verb)) {
                             pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
                         } else {
                             pastForm += "ed";  // default case for regular verbs
