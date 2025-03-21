@@ -160,6 +160,7 @@
             <input type="text" id="answer" placeholder="Enter the correct form" onkeydown="handleKeyPress(event)">
             <button onclick="checkAnswer()">Submit</button>
             <p id="feedback"></p>
+            <button id="nextQuestionButton" style="display: none;" onclick="newQuestion()">Next Question</button>
             <p id="counter">Correct Answers: <span id="correctAnswers">0</span></p>
             <p id="highScore">High Score: <span id="highScoreValue">0</span></p>
             <p id="streak">Streak: <span id="streakCount">0</span></p>
@@ -321,31 +322,50 @@
         function checkAnswer() {
             const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
             const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
-
+        
             if (userAnswer === correctAnswer) {
                 document.getElementById("feedback").innerText = "✅ Correct!";
                 correctAnswers++;
                 streak++;
                 document.getElementById("correctAnswers").innerText = correctAnswers;
                 document.getElementById("streakCount").innerText = streak;
-
+        
                 if (correctAnswers > highScore) {
                     highScore = correctAnswers;
                     localStorage.setItem('highScore', highScore);
                     document.getElementById('highScoreValue').innerText = highScore;
                 }
+        
+                // Automatically move to the next question after a correct answer
+                setTimeout(newQuestion, 2000);
             } else {
                 document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
                 document.getElementById("feedback").classList.add("shake");
                 setTimeout(() => {
                     document.getElementById("feedback").classList.remove("shake");
                 }, 500);
-                streak = 0;  // Reset streak on incorrect answer
+                streak = 0;
                 document.getElementById("streakCount").innerText = streak;
+        
+                // Show the "Next Question" button
+                document.getElementById("nextQuestionButton").style.display = "block";
             }
-
-            setTimeout(newQuestion, 2000);
         }
+        
+        function newQuestion() {
+            currentSubject = getRandomElement(subjects);
+            currentVerb = getRandomElement(verbs);
+            currentTense = getRandomElement(tenses);
+            document.getElementById("verb").innerText = currentVerb;
+            document.getElementById("subject").innerText = currentSubject === "I" ? "I" : currentSubject.toLowerCase();
+            document.getElementById("tense").innerText = currentTense.toLowerCase();
+            document.getElementById("answer").value = "";
+            document.getElementById("feedback").innerText = "";
+        
+            // Hide the "Next Question" button
+            document.getElementById("nextQuestionButton").style.display = "none";
+        }
+        
 
         function handleKeyPress(event) {
             if (event.key === "Enter") {
