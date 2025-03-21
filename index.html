@@ -205,7 +205,9 @@
                 case "Present Simple":
                     if (verb === "be") return subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
                     if (verb === "have") return ["He", "She", "It"].includes(subject) ? "has" : "have";
-                    if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
+                    if (["go", "do", "try"].includes(verb) && ["He", "She", "It"].includes(subject)) {
+                        return verb === "go" ? "goes" : (verb === "do" ? "does" : "tries");
+                    }
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
                    // Define consonants that never double
