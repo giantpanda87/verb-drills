@@ -320,52 +320,59 @@
         }
 
         function checkAnswer() {
-            const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
-            const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
+            let userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+            let correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
+        
+            let feedbackElement = document.getElementById("feedback");
+            let nextButton = document.getElementById("nextQuestionButton");
         
             if (userAnswer === correctAnswer) {
-                document.getElementById("feedback").innerText = "✅ Correct!";
+                feedbackElement.innerText = "✅ Correct!";
+                feedbackElement.style.color = "green";
                 correctAnswers++;
                 streak++;
+                if (streak > highScore) {
+                    highScore = streak;
+                    localStorage.setItem("highScore", highScore);
+                    document.getElementById("highScoreValue").innerText = highScore;
+                }
                 document.getElementById("correctAnswers").innerText = correctAnswers;
                 document.getElementById("streakCount").innerText = streak;
-        
-                if (correctAnswers > highScore) {
-                    highScore = correctAnswers;
-                    localStorage.setItem('highScore', highScore);
-                    document.getElementById('highScoreValue').innerText = highScore;
-                }
-        
-                // Automatically move to the next question after a correct answer
-                setTimeout(newQuestion, 2000);
+                
+                // Show the next question button and hide the input/submit button
+                nextButton.style.display = "block";
+                document.getElementById("answer").style.display = "none";
+                document.querySelector("button[onclick='checkAnswer()']").style.display = "none";
             } else {
-                document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
-                document.getElementById("feedback").classList.add("shake");
-                setTimeout(() => {
-                    document.getElementById("feedback").classList.remove("shake");
-                }, 500);
-                streak = 0;
+                feedbackElement.innerText = "❌ Incorrect. Try again!";
+                feedbackElement.style.color = "red";
+                feedbackElement.classList.add("shake");
+                setTimeout(() => feedbackElement.classList.remove("shake"), 500);
+                streak = 0; // Reset streak on wrong answer
                 document.getElementById("streakCount").innerText = streak;
-        
-                // Show the "Next Question" button
-                document.getElementById("nextQuestionButton").style.display = "block";
             }
         }
+
         
         function newQuestion() {
             currentSubject = getRandomElement(subjects);
             currentVerb = getRandomElement(verbs);
             currentTense = getRandomElement(tenses);
+            
             document.getElementById("verb").innerText = currentVerb;
             document.getElementById("subject").innerText = currentSubject === "I" ? "I" : currentSubject.toLowerCase();
             document.getElementById("tense").innerText = currentTense.toLowerCase();
+            
             document.getElementById("answer").value = "";
             document.getElementById("feedback").innerText = "";
-        
-            // Hide the "Next Question" button
+            
+            // Show input and submit button again
+            document.getElementById("answer").style.display = "block";
+            document.querySelector("button[onclick='checkAnswer()']").style.display = "block";
+            
+            // Hide "Next Question" button
             document.getElementById("nextQuestionButton").style.display = "none";
         }
-        
 
         function handleKeyPress(event) {
             if (event.key === "Enter") {
