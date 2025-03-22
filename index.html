@@ -205,9 +205,7 @@
                 case "Present Simple":
                     if (verb === "be") return subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
                     if (verb === "have") return ["He", "She", "It"].includes(subject) ? "has" : "have";
-                    if (["go", "do", "try"].includes(verb) && ["He", "She", "It"].includes(subject)) {
-                        return verb === "go" ? "goes" : (verb === "do" ? "does" : "tries");
-                    }
+                    if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
                 case "Present Continuous":
                    // Define consonants that never double
@@ -220,7 +218,7 @@
                         ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                     }
                      // Only double the consonant for verbs ending in a single vowel + certain consonants
-                    else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvz]$/.test(verb) && !nonDoublingConsonants.includes(verb[verb.length - 1])) {
+                    else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvz]$/.test(verb) && !nonDoublingConsonants.includes(verb[verb.length - 1])) && !/[aeiou]{2}d$/.test(verb)) {
                         ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
                     }
                     else {
@@ -240,9 +238,6 @@
                 case "Future Simple":
                     return `will ${verb}`;
                 case "Past Simple":
-
-                    const nonDoublingConsonants = ['c', 'h', 'j', 'k', 'q', 'v', 'w', 'x', 'y'];
-                    
                     const irregularVerbs = {
                         "become": "became",
                         "begin": "began",
@@ -302,7 +297,7 @@
                         if (verb.endsWith("e")) {
                             pastForm += "d";  // e.g., "love" → "loved"
                         }
-                        else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !nonDoublingConsonants.includes(verb[verb.length - 1]) && !/[aeiou]{2}d$/.test(verb)) {
+                        else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
                             pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
                         } else {
                             pastForm += "ed";  // default case for regular verbs
