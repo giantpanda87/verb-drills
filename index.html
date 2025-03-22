@@ -220,7 +220,7 @@
                         ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                     }
                      // Only double the consonant for verbs ending in a single vowel + certain consonants
-                    else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvz]$/.test(verb) && !nonDoublingConsonants.includes(verb[verb.length - 1])) && !/[aeiou]{2}d$/.test(verb)) {
+                    else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvz]$/.test(verb) && !nonDoublingConsonants.includes(verb[verb.length - 1])) {
                         ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
                     }
                     else {
