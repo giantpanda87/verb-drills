@@ -177,9 +177,3 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
 
         newQuestion();  // Start with the first question
         
-        document.addEventListener("touchstart", function (event) {
-            if (event.target.tagName === "INPUT") {
-                event.preventDefault();
-            }
-        }, { passive: false });
-        
