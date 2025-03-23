@@ -37,9 +37,11 @@ h2 {
 .question-part {
     margin: 10px 0 15px;
     font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Vertically align items */
+    justify-content: flex-start; /* Align items to the left */
+    gap: 8px; /* Add space between the label and the highlight */
+    flex-wrap: nowrap; /* Prevent wrapping */
 }
 .question-part strong {
     font-weight: bold;
@@ -50,6 +52,8 @@ h2 {
     padding: 5px 10px;
     border-radius: 5px;
     white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Prevent overflow issues */
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
 }
 input {
     width: 100%;
