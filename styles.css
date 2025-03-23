@@ -35,7 +35,7 @@ h2 {
     margin-bottom: 25px;
 }
 .question-part {
-    margin: 10px 0;
+    margin: 10px 0 15px;
     font-size: 18px;
     display: flex;
     align-items: center;
@@ -49,6 +49,7 @@ h2 {
     background-color: #fff3cd; /* Light yellow background for highlighting */
     padding: 5px 10px;
     border-radius: 5px;
+    white-space: nowrap; /* Prevent text wrapping */
 }
 input {
     width: 100%;

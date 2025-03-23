@@ -38,10 +38,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                     if (verb === "have") return ["He", "She", "It"].includes(subject) ? "has" : "have";
                     if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
                     return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
-                case "Present Continuous":
-                    // Handle special verbs (no need to double consonants for these)
-                    const specialVerbs = ["meet", "feel", "seal", "heat", "need", "seem", "sleep", "peel", "complete", "greet", "follow"];
-
+                case "Present Continuous":        
                     let ingForm = verb;
 
                     // Remove "e" for verbs ending in "e" (except "be")
@@ -127,6 +124,9 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                         if (verb.endsWith("e")) {
                             pastForm += "d";  // e.g., "love" → "loved"
                         }
+                        else if (verb.endsWith("y")) {
+                            pastForm = verb.slice(0, -1) + "ied";  // e.g., "try" → "tried"
+                        }    
                         else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
                             pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
                         } else {
