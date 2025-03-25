@@ -1,13 +1,21 @@
 const subjects = ["I", "You", "He", "She", "It", "We", "They"];
-        const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come", "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need", "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help", "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live", "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay", "meet", "include", "continue", "set", "learn", "change", "lead", "understand", "watch", "follow", "analyze", "budget", "collaborate", "delegate", "negotiate", "optimize", "prioritize", "strategize", "facilitate", "implement", "monitor", "coordinate", "evaluate", "generate", "integrate", "review"];
+        const verbs = ["be", "have", "go", "do", "say", "make", "take", "see", "come",
+            "know", "get", "give", "think", "tell", "work", "call", "try", "ask", "need",
+            "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help",
+            "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live",
+            "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay",
+            "meet", "include", "continue", "set", "learn", "change", "lead", "understand",
+            "watch", "follow", "analyze", "budget", "collaborate", "delegate", "negotiate",
+            "optimize", "prioritize", "strategize", "facilitate", "implement", "monitor",
+            "coordinate", "evaluate", "generate", "integrate", "review", "play", "run",
+            "jump", "write", "read", "monitor", "happen", "budget", 
+            "accept", "allow", "answer", "arrive", "bake", "believe", "borrow", "call", 
+            "clean", "climb", "close", "compare", "cook", "dance", "deliver", "describe", 
+            "develop", "discover", "divide", "dress", "drop", "enjoy", "enter", "explain", 
+            "finish", "follow", "happen", "help", "hope", "imagine", "improve", "include", 
+            "invent", "invite", "join", "jump", "laugh", "learn", "listen", "love", "move", 
+            "need", "open", "paint", "play", "pull", "push", "rain", "remember", "repeat",];
         const tenses = ["Present Simple", "Present Continuous", "Imperative", "Conditional", "Future Simple", "Past Simple"];
-        const irregularPast = {
-            "be": "was/were", "have": "had", "go": "went", "do": "did", "say": "said", "make": "made", "take": "took", "see": "saw",
-            "come": "came", "know": "knew", "get": "got", "give": "gave", "think": "thought", "tell": "told", "leave": "left", "put": "put",
-            "mean": "meant", "keep": "kept", "let": "let", "begin": "began", "show": "showed", "hear": "heard", "run": "ran", "sit": "sat",
-            "stand": "stood", "lose": "lost", "pay": "paid", "meet": "met", "set": "set", "lead": "led", "write": "wrote", "bring": "brought",
-            "hold": "held", "read": "read"
-        };
 
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
@@ -46,6 +54,131 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                 console.error("Error in newQuestion:", error);
             }
         }
+        
+        // Helper function to check if a word is a single syllable
+        function isSingleSyllable(word) {
+            // Count the number of vowels in the word
+            const vowels = word.match(/[aeiou]/gi);
+            return vowels && vowels.length === 1; // Single syllable if only one vowel
+        }
+
+        // Helper function to check if the last syllable is stressed
+        function isLastSyllableStressed(word) {
+            // For simplicity, assume multi-syllable words are not stressed on the last syllable
+            // unless explicitly defined (you can expand this logic if needed)
+            const unstressedWords = ["budget", "target", "visit", "happen"];
+            return !unstressedWords.includes(word.toLowerCase());
+        }
+
+        const irregularVerbs = {
+            "arise": "arose",
+            "awake": "awoke",
+            "become": "became",
+            "begin": "began",
+            "bet": "bet",
+            "bind": "bound",
+            "bleed": "bled",
+            "blow": "blew",
+            "break": "broke",
+            "bring": "brought",
+            "broadcast": "broadcast",
+            "build": "built",
+            "buy": "bought",
+            "catch": "caught",
+            "choose": "chose",
+            "cling": "clung",
+            "come": "came",
+            "creep": "crept",
+            "deal": "dealt",
+            "dig": "dug",
+            "dive": "dove",
+            "do": "did",
+            "drink": "drank",
+            "drive": "drove",
+            "eat": "ate",
+            "fall": "fell",
+            "feed": "fed",
+            "feel": "felt",
+            "find": "found",
+            "forbid": "forbade",
+            "forgive": "forgave",
+            "freeze": "froze",
+            "get": "got",
+            "give": "gave",
+            "go": "went",
+            "grind": "ground",
+            "grow": "grew",
+            "hang": "hung",
+            "have": "had",
+            "hear": "heard",
+            "hide": "hid",
+            "hold": "held",
+            "keep": "kept",
+            "kneel": "knelt",
+            "know": "knew",
+            "lay": "laid",
+            "lead": "led",
+            "leave": "left",
+            "let": "let",
+            "light": "lit",
+            "lose": "lost",
+            "make": "made",
+            "mean": "meant",
+            "meet": "met",
+            "pay": "paid",
+            "prove": "proved",
+            "put": "put",
+            "quit": "quit",
+            "read": "read",
+            "ride": "rode",
+            "ring": "rang",
+            "rise": "rose",
+            "run": "ran",
+            "say": "said",
+            "see": "saw",
+            "seek": "sought",
+            "sell": "sold",
+            "send": "sent",
+            "set": "set",
+            "shake": "shook",
+            "shine": "shone",
+            "shoot": "shot",
+            "show": "showed",
+            "shrink": "shrank",
+            "sing": "sang",
+            "sink": "sank",
+            "sit": "sat",
+            "sleep": "slept",
+            "slide": "slid",
+            "sow": "sowed",
+            "speak": "spoke",
+            "spend": "spent",
+            "spin": "spun",
+            "split": "split",
+            "spread": "spread",
+            "spring": "sprang",
+            "stand": "stood",
+            "stick": "stuck",
+            "sting": "stung",
+            "strike": "struck",
+            "swear": "swore",
+            "sweep": "swept",
+            "swim": "swam",
+            "swing": "swung",
+            "take": "took",
+            "teach": "taught",
+            "tear": "tore",
+            "tell": "told",
+            "think": "thought",
+            "throw": "threw",
+            "understand": "understood",
+            "wake": "woke",
+            "wear": "wore",
+            "weep": "wept",
+            "win": "won",
+            "wind": "wound",
+            "write": "wrote"
+        };
 
         function conjugateVerb(subject, verb, tense) {
             try {
@@ -62,11 +195,18 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                         if (verb.endsWith("e") && verb !== "be") {
                             ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                         }
-                        // Only double the consonant for verbs ending in a single vowel + certain consonants
                         else if (verb.length > 2 && /[aeiou][bdfglmnprstz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
-                            ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
-                        } else {
-                            ingForm = verb + "ing";  // default case (including special verbs like "meet")
+                            // Check if the word is a single syllable or the stress is on the last syllable
+                            if (isSingleSyllable(verb) || isLastSyllableStressed(verb)) {
+                                // Do not double consonants for words ending in a long vowel sound
+                                if (!verb.match(/[aeiou]{2}[bcdfghjklmnpqrstvwxyz]$/)) {
+                                    ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
+                                } else {
+                                    ingForm = verb + "ing";  // e.g., "feel" → "feeling"
+                                }
+                            } else {
+                                ingForm = verb + "ing";  // e.g., "happen" → "happening"
+                            }
                         }
 
                         // Define the conjugation of "to be" based on the subject
@@ -82,54 +222,6 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                     case "Future Simple":
                         return `will ${verb}`;
                     case "Past Simple":
-                        const irregularVerbs = {
-                            "become": "became",
-                            "begin": "began",
-                            "break": "broke",
-                            "bring": "brought",
-                            "build": "built",
-                            "buy": "bought",
-                            "catch": "caught",
-                            "choose": "chose",
-                            "come": "came",
-                            "do": "did",
-                            "drink": "drank",
-                            "drive": "drove",
-                            "eat": "ate",
-                            "fall": "fell",
-                            "feel": "felt",
-                            "find": "found",
-                            "get": "got",
-                            "give": "gave",
-                            "go": "went",
-                            "have": "had",
-                            "hear": "heard",
-                            "hold": "held",
-                            "keep": "kept",
-                            "know": "knew",
-                            "leave": "left",
-                            "let": "let",
-                            "lie": "lay",
-                            "lose": "lost",
-                            "make": "made",
-                            "meet": "met",
-                            "pay": "paid",
-                            "put": "put",
-                            "read": "read",
-                            "run": "ran",
-                            "say": "said",
-                            "see": "saw",
-                            "sing": "sang",
-                            "speak": "spoke",
-                            "stand": "stood",
-                            "take": "took",
-                            "teach": "taught",
-                            "tell": "told",
-                            "think": "thought",
-                            "understand": "understood",
-                            "write": "wrote"
-                        };
-                    
                         // Check if the verb is irregular and return the correct past form
                         if (verb === "be") {
                             return subject === "I" || subject === "He" || subject === "She" || subject === "It" ? "was" : "were";
@@ -144,10 +236,20 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                                 pastForm += "d";  // e.g., "love" → "loved"
                             }
                             else if (verb.endsWith("y")) {
-                                pastForm = verb.slice(0, -1) + "ied";  // e.g., "try" → "tried"
-                            }    
+                                // Check if the "y" is preceded by a consonant
+                                if (!/[aeiou]/.test(verb[verb.length - 2])) {
+                                    pastForm = verb.slice(0, -1) + "ied";  // e.g., "try" → "tried"
+                                } else {
+                                    pastForm += "ed";  // e.g., "play" → "played"
+                                }
+                            }
                             else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
-                                pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
+                                // Check if the word is a single syllable or the stress is on the last syllable
+                                if (isSingleSyllable(verb) || isLastSyllableStressed(verb)) {
+                                    pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
+                                } else {
+                                    pastForm += "ed";  // e.g., "budget" → "budgeted"
+                                }
                             } else {
                                 pastForm += "ed";  // default case for regular verbs
                             }
@@ -155,7 +257,8 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                         }
                         
                     default:
-                        return "";
+                        console.warn("Unhandled tense:", tense, { subject, verb });
+                        return `Unable to conjugate "${verb}" in "${tense}" tense.`;
                 }
             } catch (error) {
                 console.error("Error in conjugateVerb:", error, { subject, verb, tense });
