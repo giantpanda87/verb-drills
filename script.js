@@ -140,6 +140,8 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             }
         }
 
+        let timeoutId; // Declare a variable to store the timeout ID
+
         function checkAnswer() {
             const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
             const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
@@ -162,11 +164,15 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                 setTimeout(() => {
                     document.getElementById("feedback").classList.remove("shake");
                 }, 500);
-                streak = 0;  // Reset streak on incorrect answer
+                streak = 0; // Reset streak on incorrect answer
                 document.getElementById("streakCount").innerText = streak;
             }
 
-            setTimeout(newQuestion, 2000);
+            // Clear any existing timeout before setting a new one
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+            timeoutId = setTimeout(newQuestion, 2000);
         }
 
         function handleKeyPress(event) {
