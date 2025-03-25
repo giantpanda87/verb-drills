@@ -4,7 +4,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             "feel", "become", "leave", "put", "mean", "keep", "let", "begin", "seem", "help",
             "talk", "turn", "start", "show", "hear", "play", "run", "move", "like", "live",
             "believe", "hold", "bring", "happen", "write", "sit", "stand", "lose", "pay",
-            "meet", "include", "continue", "set", "learn", "change", "lead", "understand",
+            "meet", "include", "continue", "set", "change", "lead", "understand",
             "watch", "follow", "analyze", "budget", "collaborate", "delegate", "negotiate",
             "optimize", "prioritize", "strategize", "facilitate", "implement", "monitor",
             "coordinate", "evaluate", "generate", "integrate", "review", "play", "run",
@@ -14,7 +14,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             "develop", "discover", "divide", "dress", "drop", "enjoy", "enter", "explain", 
             "finish", "follow", "happen", "help", "hope", "imagine", "improve", "include", 
             "invent", "invite", "join", "jump", "laugh", "learn", "listen", "love", "move", 
-            "need", "open", "paint", "play", "pull", "push", "rain", "remember", "repeat",];
+            "need", "open", "paint", "pull", "push", "rain", "remember", "repeat",];
         const tenses = ["Present Simple", "Present Continuous", "Imperative", "Conditional", "Future Simple", "Past Simple"];
 
         let currentVerb, currentSubject, currentTense;
@@ -66,7 +66,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
         function isLastSyllableStressed(word) {
             // For simplicity, assume multi-syllable words are not stressed on the last syllable
             // unless explicitly defined (you can expand this logic if needed)
-            const unstressedWords = ["budget", "target", "visit", "happen"];
+            const unstressedWords = ["budget", "target", "visit", "happen", "monitor"];
             return !unstressedWords.includes(word.toLowerCase());
         }
 
@@ -118,6 +118,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             "know": "knew",
             "lay": "laid",
             "lead": "led",
+            "learn": "learnt",
             "leave": "left",
             "let": "let",
             "light": "lit",
@@ -195,6 +196,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                         if (verb.endsWith("e") && verb !== "be") {
                             ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                         }
+                        // Double the consonant for single-syllable words ending in vowel + consonant
                         else if (verb.length > 2 && /[aeiou][bdfglmnprstz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
                             // Check if the word is a single syllable or the stress is on the last syllable
                             if (isSingleSyllable(verb) || isLastSyllableStressed(verb)) {
@@ -205,7 +207,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                                     ingForm = verb + "ing";  // e.g., "feel" → "feeling"
                                 }
                             } else {
-                                ingForm = verb + "ing";  // e.g., "happen" → "happening"
+                                ingForm = verb + "ing";  // e.g., "monitor" → "monitoring"
                             }
                         }
 
@@ -246,12 +248,15 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                             else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
                                 // Check if the word is a single syllable or the stress is on the last syllable
                                 if (isSingleSyllable(verb) || isLastSyllableStressed(verb)) {
-                                    pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
+                                    // Do not double consonants for words ending in a long vowel sound
+                                    if (!verb.match(/[aeiou]{2}[bcdfghjklmnpqrstvwxyz]$/)) {
+                                        pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
+                                    } else {
+                                        pastForm += "ed";  // e.g., "monitor" → "monitored"
+                                    }
                                 } else {
-                                    pastForm += "ed";  // e.g., "budget" → "budgeted"
+                                    pastForm += "ed";  // e.g., "monitor" → "monitored"
                                 }
-                            } else {
-                                pastForm += "ed";  // default case for regular verbs
                             }
                             return pastForm;
                         }
