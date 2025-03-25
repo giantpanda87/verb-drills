@@ -21,158 +21,205 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
         }
 
         function newQuestion() {
-            currentSubject = getRandomElement(subjects);
-            currentVerb = getRandomElement(verbs);
-            currentTense = getRandomElement(tenses);
-            document.getElementById("verb").innerText = currentVerb;
-            document.getElementById("subject").innerText = currentSubject === "I" ? "I" : currentSubject.toLowerCase(); // Ensure "I" is uppercase
-            document.getElementById("tense").innerText = currentTense.toLowerCase();
-            document.getElementById("answer").value = "";
-            document.getElementById("feedback").innerText = "";
+            try {
+                currentSubject = getRandomElement(subjects);
+                currentTense = getRandomElement(tenses);
+        
+                // Ensure the imperative tense is only used with valid subjects
+                let attempts = 0; // Counter to track the number of attempts
+                while (currentTense === "Imperative" && ["I", "He", "She", "It", "They"].includes(currentSubject)) {
+                    currentTense = getRandomElement(tenses);
+                    attempts++;
+                    if (attempts > 10) { // Safeguard to prevent infinite loop
+                        console.error("Failed to find a valid tense after 10 attempts");
+                        break;
+                    }
+                }
+        
+                currentVerb = getRandomElement(verbs);
+                document.getElementById("verb").innerText = currentVerb;
+                document.getElementById("subject").innerText = currentSubject === "I" ? "I" : currentSubject.toLowerCase(); // Ensure "I" is uppercase
+                document.getElementById("tense").innerText = currentTense.toLowerCase();
+                document.getElementById("answer").value = "";
+                document.getElementById("feedback").innerText = "";
+            } catch (error) {
+                console.error("Error in newQuestion:", error);
+            }
         }
 
         function conjugateVerb(subject, verb, tense) {
-            switch (tense) {
-                case "Present Simple":
-                    if (verb === "be") return subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
-                    if (verb === "have") return ["He", "She", "It"].includes(subject) ? "has" : "have";
-                    if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
-                    return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
-                case "Present Continuous":        
-                    let ingForm = verb;
+            try {
+                switch (tense) {
+                    case "Present Simple":
+                        if (verb === "be") return subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
+                        if (verb === "have") return ["He", "She", "It"].includes(subject) ? "has" : "have";
+                        if (["go", "do"].includes(verb) && ["He", "She", "It"].includes(subject)) return verb === "go" ? "goes" : "does";
+                        return ["He", "She", "It"].includes(subject) ? `${verb}s` : verb;
+                    case "Present Continuous":        
+                        let ingForm = verb;
 
-                    // Remove "e" for verbs ending in "e" (except "be")
-                    if (verb.endsWith("e") && verb !== "be") {
-                        ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
-                    }
-                    // Only double the consonant for verbs ending in a single vowel + certain consonants
-                    else if (verb.length > 2 && /[aeiou][bdfglmnprstz]$/.test(verb) && !specialVerbs.includes(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
-                        ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
-                    }
-                    else {
-                        ingForm = verb + "ing";  // default case (including special verbs like "meet")
-                    }
-
-                    // Define the conjugation of "to be" based on the subject
-                    const toBeConjugation = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
-
-                    // Return the correct conjugation of the verb with the subject
-                    return `${toBeConjugation} ${ingForm}`;
-
-                case "Imperative":
-                    return verb === "be" ? "be" : verb;
-                case "Conditional":
-                    return subject === "I" || subject === "We" ? `would ${verb}` : `would ${verb}`;
-                case "Future Simple":
-                    return `will ${verb}`;
-                case "Past Simple":
-                    const irregularVerbs = {
-                        "become": "became",
-                        "begin": "began",
-                        "break": "broke",
-                        "bring": "brought",
-                        "build": "built",
-                        "buy": "bought",
-                        "catch": "caught",
-                        "choose": "chose",
-                        "come": "came",
-                        "do": "did",
-                        "drink": "drank",
-                        "drive": "drove",
-                        "eat": "ate",
-                        "fall": "fell",
-                        "feel": "felt",
-                        "find": "found",
-                        "get": "got",
-                        "give": "gave",
-                        "go": "went",
-                        "have": "had",
-                        "hear": "heard",
-                        "hold": "held",
-                        "keep": "kept",
-                        "know": "knew",
-                        "leave": "left",
-                        "lose": "lost",
-                        "make": "made",
-                        "meet": "met",
-                        "pay": "paid",
-                        "read": "read",
-                        "run": "ran",
-                        "say": "said",
-                        "see": "saw",
-                        "sing": "sang",
-                        "speak": "spoke",
-                        "stand": "stood",
-                        "take": "took",
-                        "teach": "taught",
-                        "tell": "told",
-                        "think": "thought",
-                        "understand": "understood",
-                        "write": "wrote"
-                    };
-                
-                    // Check if the verb is irregular and return the correct past form
-                    if (verb === "be") {
-                        return subject === "I" || subject === "He" || subject === "She" || subject === "It" ? "was" : "were";
-                    }
-                    if (irregularVerbs[verb]) {
-                        return irregularVerbs[verb];  // e.g., "become" → "became"
-                    }
-                    // For regular verbs, add "ed"
-                    else {
-                        let pastForm = verb;
-                        if (verb.endsWith("e")) {
-                            pastForm += "d";  // e.g., "love" → "loved"
+                        // Remove "e" for verbs ending in "e" (except "be")
+                        if (verb.endsWith("e") && verb !== "be") {
+                            ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                         }
-                        else if (verb.endsWith("y")) {
-                            pastForm = verb.slice(0, -1) + "ied";  // e.g., "try" → "tried"
-                        }    
-                        else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
-                            pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
+                        // Only double the consonant for verbs ending in a single vowel + certain consonants
+                        else if (verb.length > 2 && /[aeiou][bdfglmnprstz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
+                            ingForm = verb + verb[verb.length - 1] + "ing";  // e.g., "run" → "running"
                         } else {
-                            pastForm += "ed";  // default case for regular verbs
+                            ingForm = verb + "ing";  // default case (including special verbs like "meet")
                         }
-                        return pastForm;
-                    }
+
+                        // Define the conjugation of "to be" based on the subject
+                        const toBeConjugation = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
+
+                        // Return the correct conjugation of the verb with the subject
+                        return `${toBeConjugation} ${ingForm}`;
+
+                    case "Imperative":
+                        return verb === "be" ? "be" : verb;
+                    case "Conditional":
+                        return subject === "I" || subject === "We" ? `would ${verb}` : `would ${verb}`;
+                    case "Future Simple":
+                        return `will ${verb}`;
+                    case "Past Simple":
+                        const irregularVerbs = {
+                            "become": "became",
+                            "begin": "began",
+                            "break": "broke",
+                            "bring": "brought",
+                            "build": "built",
+                            "buy": "bought",
+                            "catch": "caught",
+                            "choose": "chose",
+                            "come": "came",
+                            "do": "did",
+                            "drink": "drank",
+                            "drive": "drove",
+                            "eat": "ate",
+                            "fall": "fell",
+                            "feel": "felt",
+                            "find": "found",
+                            "get": "got",
+                            "give": "gave",
+                            "go": "went",
+                            "have": "had",
+                            "hear": "heard",
+                            "hold": "held",
+                            "keep": "kept",
+                            "know": "knew",
+                            "leave": "left",
+                            "let": "let",
+                            "lie": "lay",
+                            "lose": "lost",
+                            "make": "made",
+                            "meet": "met",
+                            "pay": "paid",
+                            "put": "put",
+                            "read": "read",
+                            "run": "ran",
+                            "say": "said",
+                            "see": "saw",
+                            "sing": "sang",
+                            "speak": "spoke",
+                            "stand": "stood",
+                            "take": "took",
+                            "teach": "taught",
+                            "tell": "told",
+                            "think": "thought",
+                            "understand": "understood",
+                            "write": "wrote"
+                        };
                     
-                default:
-                    return "";
+                        // Check if the verb is irregular and return the correct past form
+                        if (verb === "be") {
+                            return subject === "I" || subject === "He" || subject === "She" || subject === "It" ? "was" : "were";
+                        }
+                        if (irregularVerbs[verb]) {
+                            return irregularVerbs[verb];  // e.g., "become" → "became"
+                        }
+                        // For regular verbs, add "ed"
+                        else {
+                            let pastForm = verb;
+                            if (verb.endsWith("e")) {
+                                pastForm += "d";  // e.g., "love" → "loved"
+                            }
+                            else if (verb.endsWith("y")) {
+                                pastForm = verb.slice(0, -1) + "ied";  // e.g., "try" → "tried"
+                            }    
+                            else if (verb.length > 2 && /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb) && !/([bcdfghjklmnpqrstvwxyz])\1$/.test(verb)) {
+                                pastForm += verb[verb.length - 1] + "ed";  // e.g., "plan" → "planned"
+                            } else {
+                                pastForm += "ed";  // default case for regular verbs
+                            }
+                            return pastForm;
+                        }
+                        
+                    default:
+                        return "";
+                }
+            } catch (error) {
+                console.error("Error in conjugateVerb:", error, { subject, verb, tense });
+                return "";
             }
         }
 
-        let timeoutId; // Declare a variable to store the timeout ID
-
         function checkAnswer() {
-            const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
-            const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
-
-            if (userAnswer === correctAnswer) {
-                document.getElementById("feedback").innerText = "✅ Correct!";
-                correctAnswers++;
-                streak++;
-                document.getElementById("correctAnswers").innerText = correctAnswers;
-                document.getElementById("streakCount").innerText = streak;
-
-                if (correctAnswers > highScore) {
-                    highScore = correctAnswers;
-                    localStorage.setItem('highScore', highScore);
-                    document.getElementById('highScoreValue').innerText = highScore;
+            try {
+                const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
+                const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
+        
+                // Log the user answer and correct answer for debugging
+                console.log("User Answer:", userAnswer);
+                console.log("Correct Answer:", correctAnswer);
+                
+                // Check if the user entered an answer
+                if (!userAnswer) {
+                    document.getElementById("feedback").innerText = "❌ Incorrect. You must enter an answer.";
+                    document.getElementById("feedback").classList.add("shake");
+                    setTimeout(() => {
+                        document.getElementById("feedback").classList.remove("shake");
+                    }, 500);
+                    streak = 0; // Reset streak on incorrect answer
+                    document.getElementById("streakCount").innerText = streak;
+        
+                    // Clear any existing timeout before setting a new one
+                    if (timeoutId) {
+                        clearTimeout(timeoutId);
+                    }
+                    timeoutId = setTimeout(newQuestion, 2000);
+                    return; // Exit the function early
                 }
-            } else {
-                document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
-                document.getElementById("feedback").classList.add("shake");
-                setTimeout(() => {
-                    document.getElementById("feedback").classList.remove("shake");
-                }, 500);
-                streak = 0; // Reset streak on incorrect answer
-                document.getElementById("streakCount").innerText = streak;
+        
+                if (userAnswer === correctAnswer) {
+                    document.getElementById("feedback").innerText = "✅ Correct!";
+                    correctAnswers++;
+                    streak++;
+                    document.getElementById("correctAnswers").innerText = correctAnswers;
+                    document.getElementById("streakCount").innerText = streak;
+        
+                    if (correctAnswers > highScore) {
+                        highScore = correctAnswers;
+                        localStorage.setItem('highScore', highScore);
+                        document.getElementById('highScoreValue').innerText = highScore;
+                    }
+                } else {
+                    document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
+                    document.getElementById("feedback").classList.add("shake");
+                    setTimeout(() => {
+                        document.getElementById("feedback").classList.remove("shake");
+                    }, 500);
+                    streak = 0; // Reset streak on incorrect answer
+                    document.getElementById("streakCount").innerText = streak;
+                }
+        
+                // Clear any existing timeout before setting a new one
+                if (timeoutId) {
+                    clearTimeout(timeoutId);
+                }
+                timeoutId = setTimeout(newQuestion, 2000);
+            } catch (error) {
+                console.error("Error in checkAnswer:", error);
             }
-
-            // Clear any existing timeout before setting a new one
-            if (timeoutId) {
-                clearTimeout(timeoutId);
-            }
-            timeoutId = setTimeout(newQuestion, 2000);
         }
 
         function handleKeyPress(event) {
@@ -182,4 +229,5 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
         }
 
         newQuestion();  // Start with the first question
-        
+
+        let timeoutId; // Declare globally
