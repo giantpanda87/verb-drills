@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1"Pnout>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Verb Drill Practice</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
@@ -23,14 +23,14 @@
                 <strong><img src="https://img.icons8.com/material-outlined/24/000000/clock.png" alt="Tense Icon"/> Tense:</strong>
                 <span id="tense" class="highlight"></span>
             </div>
-            <input type="text" id="answer" placeholder="Enter the correct form (without the subject)" onkeydown="handleKeyPress(event)">
-            <button onclick="checkAnswer()">Submit</button>
+            <input type="text" id="answer" placeholder="Enter the correct form (without the subject)">
+            <button id="submit">Submit</button>
             <p id="feedback"></p>
             <p id="counter">Correct Answers: <span id="correctAnswers">0</span></p>
             <p id="highScore">High Score: <span id="highScoreValue">0</span></p>
             <p id="streak">Streak: <span id="streakCount">0</span></p>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>
