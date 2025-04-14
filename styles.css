@@ -252,6 +252,10 @@ button:hover {
     #feedback, #counter, #highScore, #streak {
         font-size: 16px;
     }
+    #burger-menu {
+        margin-right: 15px; /* Slightly increase the margin for smaller screens */
+        margin-top: 15px;
+    }
 }
 
 /* Shake Animation */
