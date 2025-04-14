@@ -8,7 +8,8 @@ export function shouldDoubleConsonant(verb) {
     return verb.length > 2 &&
         endsWithVowelConsonant &&  // Ends with vowel + consonant
         !alreadyDoubled &&         // Does not already have a doubled consonant
-        (isSingleSyllable(verb) || isLastSyllableStressed(verb));  // Single syllable or stress on last syllable
+        isSingleSyllable(verb) &&  // Only for single-syllable words
+        !hasLongVowelSound(verb);  // Exclude words with long vowel sounds
 }
 
 // Helper function to check if a word is a single syllable
@@ -24,4 +25,19 @@ export function isLastSyllableStressed(word) {
     // unless explicitly defined (you can expand this logic if needed)
     const unstressedWords = ["budget", "target", "visit", "happen", "monitor", "follow"];
     return !unstressedWords.includes(word.toLowerCase());
+}
+
+export function hasLongVowelSound(verb) {
+    // Define a list of long vowel sounds
+    const longVowelPatterns = [
+        /ee/,  // e.g., "feel"
+        /ea/,  // e.g., "read" (present tense)
+        /oo/,  // e.g., "shoot"
+        /ai/,  // e.g., "wait"
+        /oa/,  // e.g., "boat"
+        /ie/,  // e.g., "tie"
+    ];
+
+    // Check if the verb matches any of the long vowel patterns
+    return longVowelPatterns.some(pattern => pattern.test(verb));
 }

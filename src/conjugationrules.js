@@ -1,5 +1,5 @@
 import { irregularVerbs } from './irregularverbs.js';
-import { shouldDoubleConsonant, isSingleSyllable, isLastSyllableStressed } from './helpers.js';
+import { shouldDoubleConsonant, isSingleSyllable, isLastSyllableStressed, hasLongVowelSound } from './helpers.js';
 
 export function conjugateVerb(subject, verb, tense) {
     try {
@@ -29,9 +29,13 @@ export function conjugateVerb(subject, verb, tense) {
                     ingForm = verb + "ing";  // e.g., "jump" → "jumping"
                 }
             
+                console.log("Generated ingForm:", ingForm); // Debugging
+
                 // Conjugate "to be" based on the subject
                 const toBeConjugation = subject === "I" ? "am" : (["He", "She", "It"].includes(subject) ? "is" : "are");
             
+                console.log("Generated toBeConjugation:", toBeConjugation); // Debugging
+
                 // Return the full conjugation
                 return `${toBeConjugation} ${ingForm}`;
             case "Imperative":

@@ -48,30 +48,26 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                     const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
                     const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
             
-                    // Log the user answer and correct answer for debugging
                     console.log("User Answer:", userAnswer);
                     console.log("Correct Answer:", correctAnswer);
-                    
+            
+                    const feedbackElement = document.getElementById("feedback");
+                    const submitButton = document.getElementById("submit");
+            
                     // Check if the user entered an answer
                     if (!userAnswer) {
-                        document.getElementById("feedback").innerText = "❌ Incorrect. You must enter an answer.";
-                        document.getElementById("feedback").classList.add("shake");
+                        feedbackElement.innerText = "❌ Incorrect. You must enter an answer.";
+                        feedbackElement.classList.add("shake");
                         setTimeout(() => {
-                            document.getElementById("feedback").classList.remove("shake");
+                            feedbackElement.classList.remove("shake");
                         }, 500);
                         streak = 0; // Reset streak on incorrect answer
                         document.getElementById("streakCount").innerText = streak;
-            
-                        // Clear any existing timeout before setting a new one
-                        if (timeoutId) {
-                            clearTimeout(timeoutId);
-                        }
-                        timeoutId = setTimeout(newQuestion, 2000);
                         return; // Exit the function early
                     }
             
                     if (userAnswer === correctAnswer) {
-                        document.getElementById("feedback").innerText = "✅ Correct!";
+                        feedbackElement.innerText = "✅ Correct!";
                         correctAnswers++;
                         streak++;
                         document.getElementById("correctAnswers").innerText = correctAnswers;
@@ -83,28 +79,44 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                             document.getElementById('highScoreValue').innerText = highScore;
                         }
                     } else {
-                        document.getElementById("feedback").innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
-                        document.getElementById("feedback").classList.add("shake");
+                        // Show the correct answer and keep it on the screen
+                        feedbackElement.innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
+                        feedbackElement.classList.add("shake");
                         setTimeout(() => {
-                            document.getElementById("feedback").classList.remove("shake");
+                            feedbackElement.classList.remove("shake");
                         }, 500);
                         streak = 0; // Reset streak on incorrect answer
                         document.getElementById("streakCount").innerText = streak;
                     }
             
-                    // Clear any existing timeout before setting a new one
-                    if (timeoutId) {
-                        clearTimeout(timeoutId);
+                    // Transform the "Submit" button into "Next Question"
+                    submitButton.innerText = "Next Question";
+            
+                    // Define a named function for the "Next Question" behavior
+                    function handleNextQuestion() {
+                        submitButton.innerText = "Submit"; // Change the button text back to "Submit"
+                        submitButton.removeEventListener("click", handleNextQuestion); // Remove this "Next Question" listener
+                        submitButton.addEventListener("click", checkAnswer); // Reattach the original "Submit" listener
+                        newQuestion(); // Load the next question
                     }
-                    timeoutId = setTimeout(newQuestion, 2000);
+            
+                    // Remove the current event listener and attach the "Next Question" listener
+                    submitButton.removeEventListener("click", checkAnswer);
+                    submitButton.addEventListener("click", handleNextQuestion);
                 } catch (error) {
                     console.error("Error in checkAnswer:", error);
                 }
             }
 
             function handleKeyPress(event) {
+                const submitButton = document.getElementById("submit");
+            
                 if (event.key === "Enter") {
-                    checkAnswer();
+                    if (submitButton.innerText === "Submit") {
+                        checkAnswer(); // Trigger the checkAnswer function
+                    } else if (submitButton.innerText === "Next Question") {
+                        submitButton.click(); // Simulate a click on the "Next Question" button
+                    }
                 }
             }
 
