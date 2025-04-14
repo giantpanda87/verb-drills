@@ -267,8 +267,8 @@ button:active {
         font-size: 16px;
         gap: 5px; /* Reduce spacing between label and value */
         flex-direction: column;
+        justify-content: center; /* Keep items horizontally centered */
         flex-wrap: nowrap; /* Ensure labels and values stay on the same line */
-        align-items: flex-start;
         margin: 10px 0 20px; /* Add extra space below each question part */
     }
     .highlight {
