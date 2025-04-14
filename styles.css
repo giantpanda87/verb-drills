@@ -10,6 +10,131 @@ body {
     justify-content: center;
     align-items: flex-start;
 }
+/* Burger Menu Container */
+#burger-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Burger Icon */
+.burger-icon {
+    width: 35px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.3s ease-in-out;
+}
+
+.burger-icon span {
+    display: block;
+    height: 4px;
+    background-color: #333;
+    border-radius: 2px;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Menu Content */
+.menu-content {
+    position: absolute;
+    top: 50px;
+    right: 0;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: none;
+    flex-direction: column;
+    padding: 15px;
+    width: 180px;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.menu-content ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.menu-content ul li {
+    margin: 10px 0;
+}
+
+.menu-content ul li a {
+    text-decoration: none;
+    color: #333;
+    font-size: 16px;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.menu-content ul li a:hover {
+    color: #007BFF;
+}
+
+/* Show Menu When Active */
+#burger-menu.active .menu-content {
+    display: flex;
+}
+
+/* Burger Icon Animation When Active */
+#burger-menu.active .burger-icon span:nth-child(1) {
+    transform: rotate(45deg) translateY(10px);
+}
+
+#burger-menu.active .burger-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+#burger-menu.active .burger-icon span:nth-child(3) {
+    transform: rotate(-45deg) translateY(-10px);
+}
+
+.menu-content ul li label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.menu-content ul li input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+#apply-tenses {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#apply-tenses:hover {
+    background-color: #0056b3;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
 #container {
     max-width: 400px;
     width: 90%;

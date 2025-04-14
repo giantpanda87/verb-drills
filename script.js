@@ -4,6 +4,7 @@ import { conjugateVerb } from "./src/conjugationrules.js";
 const subjects = ["I", "You", "He", "She", "It", "We", "They"];
         const tenses = ["Present Simple", "Present Continuous", "Imperative", "Conditional", "Future Simple", "Past Simple"];
 
+        let selectedTenses = [...tenses]; // Default to all tenses
         let currentVerb, currentSubject, currentTense;
         let correctAnswers = 0;
         let streak = 0;
@@ -19,12 +20,12 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             function newQuestion() {
                 try {
                     currentSubject = getRandomElement(subjects);
-                    currentTense = getRandomElement(tenses);
+                    currentTense = getRandomElement(selectedTenses);
             
                     // Ensure the imperative tense is only used with valid subjects
                     let attempts = 0; // Counter to track the number of attempts
                     while (currentTense === "Imperative" && ["I", "He", "She", "It", "They"].includes(currentSubject)) {
-                        currentTense = getRandomElement(tenses);
+                        currentTense = getRandomElement(selectedTenses);
                         attempts++;
                         if (attempts > 10) { // Safeguard to prevent infinite loop
                             console.error("Failed to find a valid tense after 10 attempts");
@@ -119,6 +120,57 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                     }
                 }
             }
+
+            // Burger Menu Logic
+            const burgerMenu = document.getElementById("burger-menu");
+            const burgerIcon = burgerMenu.querySelector(".burger-icon");
+
+            burgerIcon.addEventListener("click", () => {
+                burgerMenu.classList.toggle("active");
+            });
+
+            const tenseCheckboxes = document.querySelectorAll(".tense-checkbox");
+            const randomSelectionCheckbox = document.getElementById("random-selection");
+            const applyTensesButton = document.getElementById("apply-tenses");
+
+            // Handle tense selection
+            applyTensesButton.addEventListener("click", () => {
+                selectedTenses = [];
+                tenseCheckboxes.forEach((checkbox) => {
+                    if (checkbox.checked) {
+                        selectedTenses.push(checkbox.value);
+                    }
+                });
+
+            // Handle "Random Selection" checkbox behavior
+            randomSelectionCheckbox.addEventListener("change", () => {
+                if (randomSelectionCheckbox.checked) {
+                    // Disable all other checkboxes when "Random Selection" is checked
+                    tenseCheckboxes.forEach((checkbox) => {
+                        checkbox.disabled = true;
+                        checkbox.checked = false; // Uncheck all other checkboxes
+                    });
+                } else {
+                    // Enable all other checkboxes when "Random Selection" is unchecked
+                    tenseCheckboxes.forEach((checkbox) => {
+                        checkbox.disabled = false;
+                    });
+                }
+            });
+
+                // If "Random Selection" is checked or no tenses are selected, use all tenses
+                if (randomSelectionCheckbox.checked || selectedTenses.length === 0) {
+                    selectedTenses = [...tenses];
+                }
+
+                // Close the menu
+                burgerMenu.classList.remove("active");
+
+                console.log("Selected Tenses:", selectedTenses); // Debugging
+
+                // Generate a new question immediately
+                newQuestion();
+            });
 
             document.getElementById("submit").addEventListener("click", checkAnswer);
             document.getElementById("answer").addEventListener("keydown", handleKeyPress);
