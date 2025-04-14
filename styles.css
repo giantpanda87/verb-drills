@@ -162,18 +162,20 @@ h2 {
     margin-bottom: 25px;
 }
 .question-part {
-    margin: 10px 0 15px;
-    font-size: 18px;
-    display: flex; /* Use flexbox for alignment */
+    display: flex; /* Use Flexbox for alignment */
     align-items: center; /* Vertically align items */
     justify-content: flex-start; /* Align items to the left */
-    gap: 8px; /* Add space between the label and the highlight */
-    flex-wrap: nowrap; /* Prevent wrapping */
+    gap: 8px; /* Add space between the label and the value */
+    flex-wrap: nowrap; /* Prevent wrapping to the next line */
+    margin: 10px 0; /* Add spacing between rows */
+    font-size: 18px;
 }
+
 .question-part strong {
     font-weight: bold;
-    margin-right: 8px;
+    margin-right: 8px; /* Add space between the label and the value */
 }
+
 .highlight {
     background-color: #fff3cd; /* Light yellow background for highlighting */
     padding: 5px 10px;
@@ -189,6 +191,7 @@ input {
     font-size: 1.2em;
     border: 1px solid #ccc;
     border-radius: 5px;
+    margin-top: 10px; /* Add extra space above the input field */
     margin-bottom: 15px;
     box-sizing: border-box; /* Ensures padding is inside the width */
     z-index: 1; /* Make sure it's above any other elements */
@@ -241,8 +244,14 @@ button:hover {
     }
     .question-part {
         font-size: 16px;
+        gap: 5px; /* Reduce spacing between label and value */
         flex-direction: column;
         align-items: flex-start;
+        margin: 10px 0 20px; /* Add extra space below each question part */
+    }
+    .highlight {
+        padding: 4px 8px; /* Reduce padding for smaller screens */
+        font-size: 14px; /* Adjust font size */
     }
     .question-part strong {
         margin-bottom: 5px;
