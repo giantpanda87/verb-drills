@@ -1,7 +1,3 @@
-html {
-    font-size: 16px;
-}
-
 body {
     font-family: 'Roboto', sans-serif;
     text-align: center;
@@ -13,8 +9,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
-    height: 100vh; /* Use the full height of the viewport */
-    overflow: hidden; /* Prevent scrolling */
 }
 /* Burger Menu Container */
 #burger-menu {
@@ -153,7 +147,6 @@ body {
 #container {
     max-width: 400px;
     width: 90%;
-    height: auto;
     margin: auto;
     padding: 20px;
     background: white;
@@ -161,10 +154,8 @@ body {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Distribute content evenly */
     align-items: center;
     position: relative;
-    overflow: hidden; /* Prevent content overflow */
 }
 .content {
     display: flex;
@@ -270,23 +261,18 @@ button:active {
 
 @media (max-width: 600px) {
     h2 {
-        font-size: 20px;
-        margin-bottom: 15px;
-    }
-    #container {
-        height: 90%; /* Use more vertical space on smaller screens */
-        padding: 15px; /* Reduce padding for smaller screens */
+        font-size: 26px;
     }
     .question-part {
-        font-size: 14px;
-        gap: 4px; /* Reduce spacing between label and value */
+        font-size: 16px;
+        gap: 5px; /* Reduce spacing between label and value */
         flex-direction: column;
         justify-content: center; /* Keep items horizontally centered */
         flex-wrap: nowrap; /* Ensure labels and values stay on the same line */
-        margin: 5px 0 20px; /* Add extra space below each question part */
+        margin: 10px 0 20px; /* Add extra space below each question part */
     }
     .highlight {
-        padding: 3px 6px; /* Reduce padding for smaller screens */
+        padding: 4px 8px; /* Reduce padding for smaller screens */
         font-size: 14px; /* Adjust font size */
     }
     .question-part strong {
@@ -294,12 +280,10 @@ button:active {
     }
     input, button {
         font-size: 14px;
-        height: 40px; /* Reduce input height */
-        padding: 10px;
+        padding: 12px;
     }
     #feedback, #counter, #highScore, #streak {
-        font-size: 14px;
-        margin-top: 10px; /* Reduce spacing */
+        font-size: 16px;
     }
     #burger-menu {
         margin-right: 15px; /* Slightly increase the margin for smaller screens */
