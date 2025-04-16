@@ -9,7 +9,47 @@ body {
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    transition: font-family 0.3s ease-in-out;
 }
+
+/* Default (Desktop) Styles: Font Toggle in Top-Left Corner of the Screen */
+#font-toggle {
+    position: absolute;
+    top: 10px;
+    left: 10px; /* Position it in the top-left corner of the screen */
+    z-index: 1100; /* Ensure it appears above other elements */
+    background-color: transparent; /* Transparent background for a clean look */
+    border: 2px solid #007BFF; /* Blue border for visibility */
+    border-radius: 50%; /* Make it circular */
+    width: 40px; /* Set a fixed width */
+    height: 40px; /* Set a fixed height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+#font-toggle:hover {
+    background-color: rgba(0, 123, 255, 0.1); /* Subtle hover effect */
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+#font-toggle:active {
+    transform: scale(0.95); /* Slightly shrink on click */
+}
+
+.font-icon {
+    font-size: 18px; /* Adjust font size for the icon */
+    font-weight: bold;
+    color: #007BFF; /* Blue color for the icon */
+    transition: color 0.3s ease-in-out;
+}
+
+#font-toggle:hover .font-icon {
+    color: #0056b3; /* Darker blue on hover */
+}
+
 /* Burger Menu Container */
 #burger-menu {
     position: absolute;
@@ -208,6 +248,7 @@ input {
     position: relative;
     pointer-events: auto;
     transition: box-shadow 0.3s ease-in-out, border-color 0.3s ease-in-out;
+    font-family: inherit; /* Inherit the font-family from the parent element */
 }
 input:focus {
     border-color: #007BFF;
@@ -225,6 +266,7 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    font-family: inherit; /* Inherit the font-family from the parent element */
 }
 button:hover {
     background-color: #0056b3;
@@ -289,6 +331,12 @@ button:active {
         margin-right: 15px; /* Slightly increase the margin for smaller screens */
         margin-top: 15px;
     }
+    #font-toggle {
+        position: absolute;
+        top: 10px;
+        left: 30px; /* Align it neatly in the top-left corner of the container */
+        z-index: 1000; /* Ensure it appears above other elements */
+    }
 }
 
 /* Shake Animation */
@@ -302,4 +350,18 @@ button:active {
 
 #feedback.shake {
     animation: shake 0.5s ease-in-out;
+}
+
+@font-face {
+    font-family: 'OpenDyslexic';
+    src: url('./fonts/OpenDyslexic-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'OpenDyslexic-Bold';
+    src: url('./fonts/OpenDyslexic-Bold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
 }

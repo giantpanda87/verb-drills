@@ -11,6 +11,30 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
         let highScore = localStorage.getItem('highScore') ? parseInt(localStorage.getItem('highScore')) : 0;
 
         document.addEventListener("DOMContentLoaded", () => {
+            const fontToggleButton = document.getElementById("font-toggle");
+            let isDyslexicFont = localStorage.getItem("isDyslexicFont") === "true";
+
+            // Apply the saved font on page load
+            document.body.style.fontFamily = isDyslexicFont
+                ? "'OpenDyslexic', Arial, sans-serif"
+                : "'Roboto', Arial, sans-serif";
+
+            fontToggleButton.querySelector(".font-icon").innerText = isDyslexicFont ? "D" : "R";
+
+            fontToggleButton.addEventListener("click", () => {
+                isDyslexicFont = !isDyslexicFont;
+
+                // Apply the correct font-family to the body
+                document.body.style.fontFamily = isDyslexicFont
+                    ? "'OpenDyslexic', Arial, sans-serif"
+                    : "'Roboto', Arial, sans-serif";
+
+                // Save the font choice to localStorage
+                localStorage.setItem("isDyslexicFont", isDyslexicFont);
+
+                // Update the button text or icon
+                fontToggleButton.querySelector(".font-icon").innerText = isDyslexicFont ? "D" : "R";
+            });
             document.getElementById('highScoreValue').innerText = highScore;
 
             function getRandomElement(arr) {
