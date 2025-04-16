@@ -268,6 +268,10 @@ button {
     transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
     font-family: inherit; /* Inherit the font-family from the parent element */
 }
+button:focus, .burger-icon:focus {
+    outline: 2px solid #007BFF; /* Add a visible focus indicator */
+    outline-offset: 2px;
+}
 button:hover {
     background-color: #0056b3;
     transform: scale(1.02);
@@ -316,6 +320,8 @@ button:active {
     .highlight {
         padding: 4px 8px; /* Reduce padding for smaller screens */
         font-size: 14px; /* Adjust font size */
+        background: linear-gradient(135deg, #ffd700, #ffcc00); /* Darker yellow for better contrast */
+        color: #000; /* Ensure text is black for maximum readability */
     }
     .question-part strong {
         margin-bottom: 5px;
@@ -323,6 +329,9 @@ button:active {
     input, button {
         font-size: 14px;
         padding: 12px;
+    }
+    input::placeholder {
+        color: #666; /* Darker placeholder text for better contrast */
     }
     #feedback, #counter, #highScore, #streak {
         font-size: 16px;
@@ -348,8 +357,18 @@ button:active {
     100% { transform: translateX(0); }
 }
 
+#feedback {
+    margin-top: 25px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    transition: color 0.3s ease-in-out;
+}
+
 #feedback.shake {
     animation: shake 0.5s ease-in-out;
+    color: #d9534f; /* Red color for incorrect feedback */
 }
 
 @font-face {

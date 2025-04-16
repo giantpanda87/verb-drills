@@ -145,12 +145,24 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                 }
             }
 
+            function updateFeedback(message, isCorrect) {
+                const feedbackElement = document.getElementById("feedback");
+                // Update the feedback message
+                feedbackElement.textContent = message;
+            }
+
             // Burger Menu Logic
             const burgerMenu = document.getElementById("burger-menu");
             const burgerIcon = burgerMenu.querySelector(".burger-icon");
 
             burgerIcon.addEventListener("click", () => {
                 burgerMenu.classList.toggle("active");
+                // Make the burger menu keyboard-accessible
+                burgerIcon.addEventListener("keydown", (event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                        burgerMenu.classList.toggle("active");
+                    }
+                });
             });
 
             const tenseCheckboxes = document.querySelectorAll(".tense-checkbox");
@@ -202,5 +214,5 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             newQuestion();  // Start with the first question
 
         });
-    
+        
     let timeoutId; // Declare globally
