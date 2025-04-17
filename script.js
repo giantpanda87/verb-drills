@@ -178,7 +178,27 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             const randomSelectionCheckbox = document.getElementById("random-selection");
             const applyTensesButton = document.getElementById("apply-tenses");
 
-            // Handle tense selection
+            // Handle "Random Selection" checkbox behavior
+            randomSelectionCheckbox.addEventListener("change", () => {
+                if (randomSelectionCheckbox.checked) {
+                    // Uncheck all other checkboxes but keep them enabled
+                    tenseCheckboxes.forEach((checkbox) => {
+                        checkbox.checked = false;
+                    });
+                }
+            });
+
+            // Add event listeners to all tense checkboxes
+            tenseCheckboxes.forEach((checkbox) => {
+                checkbox.addEventListener("change", () => {
+                    if (checkbox.checked) {
+                        // Uncheck "Random Selection" if any other checkbox is checked
+                        randomSelectionCheckbox.checked = false;
+                    }
+                });
+            });
+
+            // Handle tense selection when "Apply" is clicked
             applyTensesButton.addEventListener("click", () => {
                 selectedTenses = [];
                 tenseCheckboxes.forEach((checkbox) => {
@@ -186,22 +206,6 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                         selectedTenses.push(checkbox.value);
                     }
                 });
-
-            // Handle "Random Selection" checkbox behavior
-            randomSelectionCheckbox.addEventListener("change", () => {
-                if (randomSelectionCheckbox.checked) {
-                    // Disable all other checkboxes when "Random Selection" is checked
-                    tenseCheckboxes.forEach((checkbox) => {
-                        checkbox.disabled = true;
-                        checkbox.checked = false; // Uncheck all other checkboxes
-                    });
-                } else {
-                    // Enable all other checkboxes when "Random Selection" is unchecked
-                    tenseCheckboxes.forEach((checkbox) => {
-                        checkbox.disabled = false;
-                    });
-                }
-            });
 
                 // If "Random Selection" is checked or no tenses are selected, use all tenses
                 if (randomSelectionCheckbox.checked || selectedTenses.length === 0) {
