@@ -1,6 +1,8 @@
 import verbs from "./src/verbs.js";
 import { conjugateVerb } from "./src/conjugationrules.js";
 
+const DEBUG = true; // Set to true to enable debugging logs
+
 const subjects = ["I", "You", "He", "She", "It", "We", "They"];
         const tenses = ["Present Simple", "Present Continuous", "Imperative", "Conditional", "Future Simple", "Past Simple"];
 
@@ -12,6 +14,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
 
         document.addEventListener("DOMContentLoaded", () => {
             const fontToggleButton = document.getElementById("font-toggle");
+            fontToggleButton.setAttribute("aria-label", "Toggle font between Roboto and OpenDyslexic");
             let isDyslexicFont = localStorage.getItem("isDyslexicFont") === "true";
 
             // Apply the saved font on page load
@@ -73,12 +76,14 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                     const userAnswer = document.getElementById("answer").value.trim().toLowerCase();
                     const correctAnswer = conjugateVerb(currentSubject, currentVerb, currentTense).toLowerCase();
             
-                    console.log("User Answer:", userAnswer);
-                    console.log("Correct Answer:", correctAnswer);
-            
+                    if (DEBUG) {
+                        console.log("User Answer:", userAnswer);
+                        console.log("Correct Answer:", correctAnswer);
+                    }
+
                     const feedbackElement = document.getElementById("feedback");
                     const submitButton = document.getElementById("submit");
-            
+                    
                     // Check if the user entered an answer
                     if (!userAnswer) {
                         feedbackElement.innerText = "❌ Incorrect. You must enter an answer.";
@@ -154,15 +159,19 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
             // Burger Menu Logic
             const burgerMenu = document.getElementById("burger-menu");
             const burgerIcon = burgerMenu.querySelector(".burger-icon");
+            burgerIcon.setAttribute("aria-label", "Toggle Menu");
+            burgerMenu.setAttribute("aria-label", "Main Navigation");
 
             burgerIcon.addEventListener("click", () => {
                 burgerMenu.classList.toggle("active");
-                // Make the burger menu keyboard-accessible
-                burgerIcon.addEventListener("keydown", (event) => {
-                    if (event.key === "Enter" || event.key === " ") {
-                        burgerMenu.classList.toggle("active");
-                    }
-                });
+                burgerIcon.setAttribute("aria-expanded", isActive);
+            });
+
+            burgerIcon.addEventListener("keydown", (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                    const isActive = burgerMenu.classList.toggle("active");
+                    burgerIcon.setAttribute("aria-expanded", isActive);
+                }
             });
 
             const tenseCheckboxes = document.querySelectorAll(".tense-checkbox");
@@ -202,7 +211,9 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                 // Close the menu
                 burgerMenu.classList.remove("active");
 
-                console.log("Selected Tenses:", selectedTenses); // Debugging
+                if (DEBUG) {
+                    console.log("Selected Tenses:", selectedTenses); // Debugging
+                }
 
                 // Generate a new question immediately
                 newQuestion();
