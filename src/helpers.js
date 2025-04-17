@@ -1,6 +1,7 @@
 export function shouldDoubleConsonant(verb) {
+
     // Check if the word ends with a vowel + consonant pattern
-    const endsWithVowelConsonant = /[aeiou][bcdfghjklmnpqrstvwxyz]$/.test(verb);
+    const endsWithVowelConsonant = /[aeiou][bcdfghjklmnpqrstvxz]$/.test(verb);
     // Check if the word already has a doubled consonant
     const alreadyDoubled = /([bcdfghjklmnpqrstvwxyz])\1$/.test(verb);
 
@@ -10,6 +11,7 @@ export function shouldDoubleConsonant(verb) {
         !alreadyDoubled &&         // Does not already have a doubled consonant
         isSingleSyllable(verb) &&  // Only for single-syllable words
         !hasLongVowelSound(verb);  // Exclude words with long vowel sounds
+        !exceptions.includes(verb.toLowerCase()); // Exclude exceptions
 }
 
 // Helper function to check if a word is a single syllable

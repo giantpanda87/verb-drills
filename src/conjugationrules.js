@@ -13,7 +13,7 @@ export function conjugateVerb(subject, verb, tense) {
                 let ingForm = verb;
             
                 // Handle verbs ending in "e" (except "be")
-                if (verb.endsWith("e") && verb !== "be") {
+                if (verb.endsWith("e") && verb !== "be" && verb !== "see") {
                     ingForm = verb.slice(0, -1) + "ing";  // e.g., "make" → "making"
                 }
                 // Handle consonant doubling for single-syllable words ending in vowel + consonant

@@ -100,6 +100,11 @@ body {
     animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Ensure the burger menu text inherits the font-family from the body */
+#burger-menu, #burger-menu * {
+    font-family: inherit;
+}
+
 .menu-content ul {
     list-style: none;
     margin: 0;
@@ -123,6 +128,14 @@ body {
 .menu-content ul li a:hover {
     background-color: rgba(0, 123, 255, 0.1);
     transform: scale(1.05);
+}
+
+/* Left-align the "Tense selection" label */
+.tense-selection-label {
+    text-align: left;
+    font-weight: bold;
+    margin-bottom: 10px; /* Add spacing below the label */
+    color: #333; /* Optional: Ensure consistent text color */
 }
 
 /* Show Menu When Active */
