@@ -110,7 +110,7 @@ const subjects = ["I", "You", "He", "She", "It", "We", "They"];
                         }
                     } else {
                         // Show the correct answer and keep it on the screen
-                        feedbackElement.innerText = `❌ Incorrect. Correct answer: "${correctAnswer}"`;
+                        feedbackElement.innerHTML = `❌ Incorrect. Correct answer: <span class="correction">"${correctAnswer}"</span>`;
                         feedbackElement.classList.add("shake");
                         setTimeout(() => {
                             feedbackElement.classList.remove("shake");

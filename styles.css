@@ -299,6 +299,19 @@ button:active {
     font-size: 18px;
     font-weight: bold;
 }
+
+#feedback .correction {
+    background: linear-gradient(135deg, #ffeb99, #ffd966); /* Same gradient as .highlight */
+    padding: 5px 10px; /* Same padding as .highlight */
+    border-radius: 5px; /* Same rounded corners as .highlight */
+    white-space: nowrap; /* Prevent text wrapping */
+    overflow: hidden; /* Hide overflow text */
+    text-overflow: ellipsis; /* Add ellipsis for long text */
+    font-weight: bold; /* Bold text */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Same shadow as .highlight */
+    color: #333; /* Ensure text color matches */
+}
+
 #counter {
     margin-top: 20px;
     font-size: 18px;
